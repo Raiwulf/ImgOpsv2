@@ -55,6 +55,7 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.importDialog = new System.Windows.Forms.OpenFileDialog();
+            this.resultBox = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -64,25 +65,26 @@
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.importPicView)).BeginInit();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.resultBox)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.logBox);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 382);
+            this.panel1.Location = new System.Drawing.Point(0, 359);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(723, 152);
+            this.panel1.Size = new System.Drawing.Size(723, 142);
             this.panel1.TabIndex = 0;
             // 
             // logBox
             // 
             this.logBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.logBox.FormattingEnabled = true;
-            this.logBox.ItemHeight = 16;
+            this.logBox.ItemHeight = 15;
             this.logBox.Location = new System.Drawing.Point(0, 0);
             this.logBox.Name = "logBox";
-            this.logBox.Size = new System.Drawing.Size(723, 152);
+            this.logBox.Size = new System.Drawing.Size(723, 142);
             this.logBox.TabIndex = 0;
             // 
             // panel2
@@ -91,7 +93,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(723, 382);
+            this.panel2.Size = new System.Drawing.Size(723, 359);
             this.panel2.TabIndex = 1;
             // 
             // tabControl1
@@ -104,11 +106,12 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(723, 382);
+            this.tabControl1.Size = new System.Drawing.Size(723, 359);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.resultBox);
             this.tabPage1.Controls.Add(this.matrixCheck);
             this.tabPage1.Controls.Add(this.scanIntLabel);
             this.tabPage1.Controls.Add(this.scanInt);
@@ -116,10 +119,10 @@
             this.tabPage1.Controls.Add(this.pName);
             this.tabPage1.Controls.Add(this.pHook);
             this.tabPage1.Controls.Add(this.checkedListBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(715, 353);
+            this.tabPage1.Size = new System.Drawing.Size(715, 331);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Home";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -127,18 +130,18 @@
             // matrixCheck
             // 
             this.matrixCheck.AutoSize = true;
-            this.matrixCheck.Location = new System.Drawing.Point(669, 9);
+            this.matrixCheck.Location = new System.Drawing.Point(669, 8);
             this.matrixCheck.Name = "matrixCheck";
-            this.matrixCheck.Size = new System.Drawing.Size(38, 16);
+            this.matrixCheck.Size = new System.Drawing.Size(38, 15);
             this.matrixCheck.TabIndex = 6;
             this.matrixCheck.Text = "label2";
             // 
             // scanIntLabel
             // 
             this.scanIntLabel.AutoSize = true;
-            this.scanIntLabel.Location = new System.Drawing.Point(429, 9);
+            this.scanIntLabel.Location = new System.Drawing.Point(429, 8);
             this.scanIntLabel.Name = "scanIntLabel";
-            this.scanIntLabel.Size = new System.Drawing.Size(128, 16);
+            this.scanIntLabel.Size = new System.Drawing.Size(128, 15);
             this.scanIntLabel.TabIndex = 5;
             this.scanIntLabel.Text = "Scan Interval (seconds)";
             // 
@@ -151,9 +154,9 @@
             // 
             // capturedView
             // 
-            this.capturedView.Location = new System.Drawing.Point(129, 35);
+            this.capturedView.Location = new System.Drawing.Point(418, 33);
             this.capturedView.Name = "capturedView";
-            this.capturedView.Size = new System.Drawing.Size(578, 312);
+            this.capturedView.Size = new System.Drawing.Size(289, 144);
             this.capturedView.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.capturedView.TabIndex = 3;
             this.capturedView.TabStop = false;
@@ -170,7 +173,7 @@
             this.pHook.AutoSize = true;
             this.pHook.Location = new System.Drawing.Point(235, 8);
             this.pHook.Name = "pHook";
-            this.pHook.Size = new System.Drawing.Size(82, 20);
+            this.pHook.Size = new System.Drawing.Size(83, 19);
             this.pHook.TabIndex = 1;
             this.pHook.Text = "checkBox1";
             this.pHook.UseVisualStyleBackColor = true;
@@ -195,17 +198,17 @@
             "PC12"});
             this.checkedListBox1.Location = new System.Drawing.Point(3, 3);
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(120, 347);
+            this.checkedListBox1.Size = new System.Drawing.Size(120, 325);
             this.checkedListBox1.TabIndex = 0;
             // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.panel4);
             this.tabPage2.Controls.Add(this.panel3);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(715, 353);
+            this.tabPage2.Size = new System.Drawing.Size(715, 331);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "States";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -217,7 +220,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(203, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(509, 347);
+            this.panel4.Size = new System.Drawing.Size(509, 325);
             this.panel4.TabIndex = 1;
             // 
             // importPicView
@@ -225,16 +228,16 @@
             this.importPicView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.importPicView.Location = new System.Drawing.Point(0, 0);
             this.importPicView.Name = "importPicView";
-            this.importPicView.Size = new System.Drawing.Size(509, 324);
+            this.importPicView.Size = new System.Drawing.Size(509, 303);
             this.importPicView.TabIndex = 1;
             this.importPicView.TabStop = false;
             // 
             // importPicButton
             // 
             this.importPicButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.importPicButton.Location = new System.Drawing.Point(0, 324);
+            this.importPicButton.Location = new System.Drawing.Point(0, 303);
             this.importPicButton.Name = "importPicButton";
-            this.importPicButton.Size = new System.Drawing.Size(509, 23);
+            this.importPicButton.Size = new System.Drawing.Size(509, 22);
             this.importPicButton.TabIndex = 0;
             this.importPicButton.Text = "Import";
             this.importPicButton.UseVisualStyleBackColor = true;
@@ -250,21 +253,21 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.Location = new System.Drawing.Point(3, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(200, 347);
+            this.panel3.Size = new System.Drawing.Size(200, 325);
             this.panel3.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 282);
+            this.label1.Location = new System.Drawing.Point(4, 264);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 16);
+            this.label1.Size = new System.Drawing.Size(71, 15);
             this.label1.TabIndex = 6;
             this.label1.Text = "State Name:";
             // 
             // addStateName
             // 
-            this.addStateName.Location = new System.Drawing.Point(80, 278);
+            this.addStateName.Location = new System.Drawing.Point(80, 261);
             this.addStateName.Name = "addStateName";
             this.addStateName.Size = new System.Drawing.Size(120, 23);
             this.addStateName.TabIndex = 5;
@@ -272,9 +275,9 @@
             // addStateButton
             // 
             this.addStateButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.addStateButton.Location = new System.Drawing.Point(0, 301);
+            this.addStateButton.Location = new System.Drawing.Point(0, 281);
             this.addStateButton.Name = "addStateButton";
-            this.addStateButton.Size = new System.Drawing.Size(200, 23);
+            this.addStateButton.Size = new System.Drawing.Size(200, 22);
             this.addStateButton.TabIndex = 2;
             this.addStateButton.Text = "Add State";
             this.addStateButton.UseVisualStyleBackColor = true;
@@ -283,9 +286,9 @@
             // removeStateButton
             // 
             this.removeStateButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.removeStateButton.Location = new System.Drawing.Point(0, 324);
+            this.removeStateButton.Location = new System.Drawing.Point(0, 303);
             this.removeStateButton.Name = "removeStateButton";
-            this.removeStateButton.Size = new System.Drawing.Size(200, 23);
+            this.removeStateButton.Size = new System.Drawing.Size(200, 22);
             this.removeStateButton.TabIndex = 2;
             this.removeStateButton.Text = "Remove State";
             this.removeStateButton.UseVisualStyleBackColor = true;
@@ -305,25 +308,25 @@
             "SubPassword"});
             this.statesList.Location = new System.Drawing.Point(0, 0);
             this.statesList.Name = "statesList";
-            this.statesList.Size = new System.Drawing.Size(200, 347);
+            this.statesList.Size = new System.Drawing.Size(200, 325);
             this.statesList.Sorted = true;
             this.statesList.TabIndex = 1;
             this.statesList.SelectedIndexChanged += new System.EventHandler(this.statesList_SelectedIndexChanged);
             // 
             // tabPage3
             // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(715, 353);
+            this.tabPage3.Size = new System.Drawing.Size(715, 331);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // tabPage4
             // 
-            this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Location = new System.Drawing.Point(4, 24);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(715, 353);
+            this.tabPage4.Size = new System.Drawing.Size(715, 331);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -336,11 +339,19 @@
             // 
             this.importDialog.FileName = "openFileDialog1";
             // 
+            // resultBox
+            // 
+            this.resultBox.Location = new System.Drawing.Point(129, 146);
+            this.resultBox.Name = "resultBox";
+            this.resultBox.Size = new System.Drawing.Size(273, 179);
+            this.resultBox.TabIndex = 7;
+            this.resultBox.TabStop = false;
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(723, 534);
+            this.ClientSize = new System.Drawing.Size(723, 501);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
@@ -356,6 +367,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.importPicView)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.resultBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -388,5 +400,6 @@
         private TextBox scanInt;
         private Label label1;
         private Label matrixCheck;
+        private PictureBox resultBox;
     }
 }

@@ -4,13 +4,16 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Emgu.CV;
+using Emgu.CV.CvEnum;
+using Emgu.CV.Reg;
+using Emgu.CV.Structure;
 
 namespace ImgOps
 {
     public partial class Form1 : Form
     {
         Process p;
-
         string capturedPath;
         string statesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/States/";
 
@@ -56,45 +59,62 @@ namespace ImgOps
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            capturedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/Captured/" + DateTime.Now.ToString("M_d_H_m_s") + ".jpg";
+            #region Opencv
+
+            #endregion
             #region Take Screenshot
 
-            //int screenLeft = SystemInformation.VirtualScreen.Left;
-            //int screenTop = SystemInformation.VirtualScreen.Top;
-            //int screenWidth = SystemInformation.VirtualScreen.Width;
-            //int screenHeight = SystemInformation.VirtualScreen.Height;
+            int screenLeft = SystemInformation.VirtualScreen.Left;
+            int screenTop = SystemInformation.VirtualScreen.Top;
+            int screenWidth = SystemInformation.VirtualScreen.Width;
+            int screenHeight = SystemInformation.VirtualScreen.Height;
 
-            //// Create a bitmap of the appropriate size to receive the full-screen screenshot.
-            //using (Bitmap bitmap = new Bitmap(screenWidth, screenHeight))
-            //{
+            // Create a bitmap of the appropriate size to receive the full-screen screenshot.
+            using (Bitmap bitmap = new Bitmap(screenWidth, screenHeight))
+            {
+                using (Graphics g = Graphics.FromImage(bitmap))
+                {
+                    g.CopyFromScreen(screenLeft, screenTop, 0, 0, bitmap.Size);
+                    bitmap.Save(capturedPath);
+                    Rectangle rectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+                    BitmapData bmpData = bitmap.LockBits(rectangle, ImageLockMode.ReadWrite, bitmap.PixelFormat);
+                    Image<Gray, byte> bitmapArr = new Image<Gray, byte>(bitmap.Width, bitmap.Height, bmpData.Stride, bmpData.Scan0);
 
-            //    using (Graphics g = Graphics.FromImage(bitmap))
-            //    {
-            //        g.CopyFromScreen(screenLeft, screenTop, 0, 0, bitmap.Size);
-            //    }
+                    bitmapArr.Save(capturedPath);
 
-            //    //Save the screenshot as a Jpg image
-            //    capturedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/Captured/" + DateTime.Now.ToString("M_d_H_m_s") + ".jpg";
-            //    try
-            //    {
-            //        Bitmap bmp = new Bitmap(bitmap);
-            //        Bitmap grayed = bitmap2Grayscale(bmp, 1);
-            //        grayed.Save(capturedPath);
-            //        grayed.Dispose();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //    }
-            //    capturedView.Image = Image.FromFile(capturedPath);
-            //}
+                    using (Bitmap impMap = new Bitmap(importPicView.Image))
+                    {
+                        Image<Gray, byte> impFinal = impMap.ToImage<Gray, byte>();
+
+
+                        Image<Gray, Byte> MaskDifferenceHigh = bitmapArr.Cmp(impFinal, CmpType.GreaterThan);
+                        Image<Gray, Byte> MaskDifferenceLow = impFinal.Cmp(bitmapArr, CmpType.LessThan);
+
+                        Image<Gray, byte> result = bitmapArr.CopyBlank();
+                        result.SetValue(new Gray(1), MaskDifferenceHigh);
+                        result.SetValue(new Gray(0.2), MaskDifferenceLow);
+                        Bitmap resImage = result.ToBitmap();
+                        resultBox.Image = resImage;
+                    }
+
+
+                }
+                capturedView.Image = Image.FromFile(capturedPath);
+
+            }
 
             #endregion
+
             #region Take SS specific app 
-            bringToFront(pName.Text);
-            Bitmap bitmapScreenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppArgb);
-            Graphics graphicsScreenshot = Graphics.FromImage(bitmapScreenshot);
-            var a = graphicsScreenshot.CopyFromScreen(0, 0, 0, 0, Screen.PrimaryScreen.Bounds.Size);
-            capturedView.Image = a;
+
+            //bringToFront(pName.Text);
+            //Bitmap bitmapScreenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppArgb);
+            //Graphics graphicsScreenshot = Graphics.FromImage(bitmapScreenshot);
+            //graphicsScreenshot.CopyFromScreen(0, 0, 0, 0, Screen.PrimaryScreen.Bounds.Size);
+
             #endregion
+
             #region Bitmap2Matrix
             //var stateMatrix = GetBitMapColorMatrix(statesPath + statesList.SelectedItem.ToString() + ".jpg");
             //var capturedMatrix = GetBitMapColorMatrix(capturedPath);
@@ -114,7 +134,7 @@ namespace ImgOps
 
         private void importPicButton_Click(object sender, EventArgs e)
         {
-
+            string statesImg = statesPath + statesList.SelectedItem.ToString() + ".jpg";
             try
             {
                 importDialog.InitialDirectory = statesPath;
@@ -125,12 +145,14 @@ namespace ImgOps
                 importDialog.ShowDialog();
 
                 importPicView.Image = Image.FromFile(importDialog.FileName);
-                //Bitmap bmp = new Bitmap(importPicView.Image);
-                //Bitmap grayed = bitmap2Grayscale(bmp,1);
-                //Image finalImage = (Image)grayed;
-                //finalImage.Save(statesPath + statesList.SelectedItem.ToString() + ".jpg");
-                //importPicView.Image = finalImage;
+                Bitmap bmp = new Bitmap(importPicView.Image);
+                bmp.Save(statesImg);
+                Rectangle rectangle = new Rectangle(0, 0, bmp.Width, bmp.Height);
+                BitmapData bmpData = bmp.LockBits(rectangle, ImageLockMode.ReadWrite, bmp.PixelFormat);
+                Image<Bgr, byte> bitmapArr = new Image<Bgr, byte>(bmp.Width, bmp.Height, bmpData.Stride, bmpData.Scan0);
+                bitmapArr.Save(statesImg);
             }
+
             catch (Exception)
             {
                 return;
@@ -155,10 +177,14 @@ namespace ImgOps
             try
             {
                 importPicView.Image = Image.FromFile(statesPath + statesList.SelectedItem.ToString() + ".jpg");
+                if(String.IsNullOrEmpty(importPicView.Image.ToString()))
+                {
+
+                    importPicView.Image = null;
+                }
             }
             catch (Exception)
             {
-                importPicView.Image = null;
                 return;
             }
         }
@@ -214,30 +240,6 @@ namespace ImgOps
         //    // Return the translated image
         //    return trImg;
         //}
-        private static bool IsSubMatrix(Color[][] a, Color[][] b)
-        {
-            for (int i = 0; i < a.Length - b.Length + 1; i++)
-            {
-                for (int j = 0; j < a[0].Length - b[0].Length + 1; j++)
-                {
-                    bool found = true;
-                    for (int k = 0; k < b.Length; ++k)
-                    {
-                        for (int l = 0; l < b[0].Length; ++l)
-                        {
-                            if (a[i + k][j + l] != b[k][l])
-                            {
-                                found = false;
-                                break;
-                            }
-                        }
-                        if (!found) break;
-                    }
-                    if (found) return true;
-                }
-            }
-            return false;
-        }
         public static void bringToFront(string title)
         {
             // Get a handle to the Calculator application.
