@@ -37,6 +37,7 @@
             this.matrixCheck = new System.Windows.Forms.Label();
             this.scanIntLabel = new System.Windows.Forms.Label();
             this.scanInt = new System.Windows.Forms.TextBox();
+            this.processBox = new System.Windows.Forms.PictureBox();
             this.capturedView = new System.Windows.Forms.PictureBox();
             this.pName = new System.Windows.Forms.TextBox();
             this.pHook = new System.Windows.Forms.CheckBox();
@@ -55,17 +56,16 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.importDialog = new System.Windows.Forms.OpenFileDialog();
-            this.resultBox = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.processBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.capturedView)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.importPicView)).BeginInit();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.resultBox)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -111,10 +111,10 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.resultBox);
             this.tabPage1.Controls.Add(this.matrixCheck);
             this.tabPage1.Controls.Add(this.scanIntLabel);
             this.tabPage1.Controls.Add(this.scanInt);
+            this.tabPage1.Controls.Add(this.processBox);
             this.tabPage1.Controls.Add(this.capturedView);
             this.tabPage1.Controls.Add(this.pName);
             this.tabPage1.Controls.Add(this.pHook);
@@ -152,11 +152,20 @@
             this.scanInt.Size = new System.Drawing.Size(100, 23);
             this.scanInt.TabIndex = 4;
             // 
+            // processBox
+            // 
+            this.processBox.Location = new System.Drawing.Point(422, 35);
+            this.processBox.Name = "processBox";
+            this.processBox.Size = new System.Drawing.Size(294, 290);
+            this.processBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.processBox.TabIndex = 3;
+            this.processBox.TabStop = false;
+            // 
             // capturedView
             // 
-            this.capturedView.Location = new System.Drawing.Point(418, 33);
+            this.capturedView.Location = new System.Drawing.Point(129, 35);
             this.capturedView.Name = "capturedView";
-            this.capturedView.Size = new System.Drawing.Size(289, 144);
+            this.capturedView.Size = new System.Drawing.Size(294, 290);
             this.capturedView.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.capturedView.TabIndex = 3;
             this.capturedView.TabStop = false;
@@ -332,20 +341,12 @@
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            //// 
+            //this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // importDialog
             // 
             this.importDialog.FileName = "openFileDialog1";
-            // 
-            // resultBox
-            // 
-            this.resultBox.Location = new System.Drawing.Point(129, 146);
-            this.resultBox.Name = "resultBox";
-            this.resultBox.Size = new System.Drawing.Size(273, 179);
-            this.resultBox.TabIndex = 7;
-            this.resultBox.TabStop = false;
             // 
             // Form1
             // 
@@ -361,13 +362,13 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.processBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.capturedView)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.importPicView)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.resultBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -400,6 +401,6 @@
         private TextBox scanInt;
         private Label label1;
         private Label matrixCheck;
-        private PictureBox resultBox;
+        private PictureBox processBox;
     }
 }

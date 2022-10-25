@@ -14,17 +14,14 @@ namespace ImgOps
     public partial class Form1 : Form
     {
         Process p;
+
+        int screenLeft = SystemInformation.VirtualScreen.Left;
+        int screenTop = SystemInformation.VirtualScreen.Top;
+        int screenWidth = SystemInformation.VirtualScreen.Width;
+        int screenHeight = SystemInformation.VirtualScreen.Height;
+
         string capturedPath;
         string statesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/States/";
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct Rect
-        {
-            public int left;
-            public int top;
-            public int right;
-            public int bottom;
-        }
 
         [DllImport("USER32.DLL", CharSet = CharSet.Unicode)]
         public static extern IntPtr FindWindow(String lpClassName, String lpWindowName);
@@ -35,41 +32,30 @@ namespace ImgOps
         {
             InitializeComponent();
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ImgOps"));
-            Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+ "/ImgOps", "Captured"));
+            Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps", "Captured"));
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps", "States"));
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
         }
-
+        //private void pHook_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (pHook.Checked)
+        //    {
+        //        timer1.Interval = Convert.ToInt32(scanInt.Text) * 1000;
+        //        timer1.Start();
+        //    }
+        //    else
+        //    {
+        //        timer1.Stop();
+        //    }
+        //}
 
         private void pHook_CheckedChanged(object sender, EventArgs e)
         {
-            if (pHook.Checked)
-            {
-                timer1.Interval = Convert.ToInt32(scanInt.Text) * 1000;
-                timer1.Start();
-            }
-            else
-            {
-                timer1.Stop();
-            }
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
             capturedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/Captured/" + DateTime.Now.ToString("M_d_H_m_s") + ".jpg";
-            #region Opencv
-
-            #endregion
+            
             #region Take Screenshot
-
-            int screenLeft = SystemInformation.VirtualScreen.Left;
-            int screenTop = SystemInformation.VirtualScreen.Top;
-            int screenWidth = SystemInformation.VirtualScreen.Width;
-            int screenHeight = SystemInformation.VirtualScreen.Height;
-
             // Create a bitmap of the appropriate size to receive the full-screen screenshot.
             using (Bitmap bitmap = new Bitmap(screenWidth, screenHeight))
             {
@@ -77,61 +63,19 @@ namespace ImgOps
                 {
                     g.CopyFromScreen(screenLeft, screenTop, 0, 0, bitmap.Size);
                     bitmap.Save(capturedPath);
-                    Rectangle rectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
-                    BitmapData bmpData = bitmap.LockBits(rectangle, ImageLockMode.ReadWrite, bitmap.PixelFormat);
-                    Image<Gray, byte> bitmapArr = new Image<Gray, byte>(bitmap.Width, bitmap.Height, bmpData.Stride, bmpData.Scan0);
-
-                    bitmapArr.Save(capturedPath);
-
-                    using (Bitmap impMap = new Bitmap(importPicView.Image))
-                    {
-                        Image<Gray, byte> impFinal = impMap.ToImage<Gray, byte>();
-
-
-                        Image<Gray, Byte> MaskDifferenceHigh = bitmapArr.Cmp(impFinal, CmpType.GreaterThan);
-                        Image<Gray, Byte> MaskDifferenceLow = impFinal.Cmp(bitmapArr, CmpType.LessThan);
-
-                        Image<Gray, byte> result = bitmapArr.CopyBlank();
-                        result.SetValue(new Gray(1), MaskDifferenceHigh);
-                        result.SetValue(new Gray(0.2), MaskDifferenceLow);
-                        Bitmap resImage = result.ToBitmap();
-                        resultBox.Image = resImage;
-                    }
-
-
                 }
                 capturedView.Image = Image.FromFile(capturedPath);
-
             }
+            Bitmap master = new Bitmap(capturedPath);
+            Bitmap sub = new Bitmap(statesPath + statesList.SelectedItem.ToString() + ".jpg");
 
+            var list = GetSubPositions(master, sub);
+            foreach(var elements in list)
+            {
+                logBox.Items.Add(elements);
+            }
             #endregion
-
-            #region Take SS specific app 
-
-            //bringToFront(pName.Text);
-            //Bitmap bitmapScreenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppArgb);
-            //Graphics graphicsScreenshot = Graphics.FromImage(bitmapScreenshot);
-            //graphicsScreenshot.CopyFromScreen(0, 0, 0, 0, Screen.PrimaryScreen.Bounds.Size);
-
-            #endregion
-
-            #region Bitmap2Matrix
-            //var stateMatrix = GetBitMapColorMatrix(statesPath + statesList.SelectedItem.ToString() + ".jpg");
-            //var capturedMatrix = GetBitMapColorMatrix(capturedPath);
-            //if(IsSubMatrix(capturedMatrix, stateMatrix))
-            //{
-            //    matrixCheck.Text = "Match!";
-            //}
-            //else
-            //{
-            //    matrixCheck.Text = "No Match!";
-            //};
-
-            #endregion
-
-
         }
-
         private void importPicButton_Click(object sender, EventArgs e)
         {
             string statesImg = statesPath + statesList.SelectedItem.ToString() + ".jpg";
@@ -147,10 +91,6 @@ namespace ImgOps
                 importPicView.Image = Image.FromFile(importDialog.FileName);
                 Bitmap bmp = new Bitmap(importPicView.Image);
                 bmp.Save(statesImg);
-                Rectangle rectangle = new Rectangle(0, 0, bmp.Width, bmp.Height);
-                BitmapData bmpData = bmp.LockBits(rectangle, ImageLockMode.ReadWrite, bmp.PixelFormat);
-                Image<Bgr, byte> bitmapArr = new Image<Bgr, byte>(bmp.Width, bmp.Height, bmpData.Stride, bmpData.Scan0);
-                bitmapArr.Save(statesImg);
             }
 
             catch (Exception)
@@ -163,7 +103,7 @@ namespace ImgOps
         {
             DialogResult removeDialog = new DialogResult();
             removeDialog = MessageBox.Show("Do you want to remove the selected state?", "Remove", MessageBoxButtons.YesNo);
-            if(removeDialog == DialogResult.Yes)
+            if (removeDialog == DialogResult.Yes)
             {
                 statesList.Items.Remove(statesList.SelectedItem);
             }
@@ -177,7 +117,7 @@ namespace ImgOps
             try
             {
                 importPicView.Image = Image.FromFile(statesPath + statesList.SelectedItem.ToString() + ".jpg");
-                if(String.IsNullOrEmpty(importPicView.Image.ToString()))
+                if (String.IsNullOrEmpty(importPicView.Image.ToString()))
                 {
 
                     importPicView.Image = null;
@@ -188,58 +128,6 @@ namespace ImgOps
                 return;
             }
         }
-        //public Color[][] GetBitMapColorMatrix(string bitmapFilePath)
-        //{
-        //    Bitmap b1 = new Bitmap(bitmapFilePath);
-
-        //    int hight = b1.Height;
-        //    int width = b1.Width;
-
-        //    Color[][] colorMatrix = new Color[width][];
-        //    for (int i = 0; i < width; i++)
-        //    {
-        //        colorMatrix[i] = new Color[hight];
-        //        for (int j = 0; j < hight; j++)
-        //        {
-        //            colorMatrix[i][j] = b1.GetPixel(i, j);
-        //        }
-        //    }
-        //    return colorMatrix;
-        //}
-        //private Bitmap bitmap2Grayscale(Bitmap img, int brightness)
-        //{
-        //    // Adjust brightness to be in range 0.0 - 1.0
-        //    float bright = -1 * ((float)brightness / 255);
-
-        //    // Average R, G, B values of all pixels
-        //    float[][] colorTransMatrix =
-        //    {
-        //    new float[] {0.333F, 0.333F, 0.333F, 0.000F, 0.000F},
-        //    new float[] {0.333F, 0.333F, 0.333F, 0.000F, 0.000F},
-        //    new float[] {0.333F, 0.333F, 0.333F, 0.000F, 0.000F},
-        //    new float[] {0.000F, 0.000F, 0.000F, 1.000F, 0.000F},
-        //    new float[] {bright, bright, bright, 0.000F, 1.000F},
-        //    };
-        //    Bitmap grayImg = translateBitmap(img, colorTransMatrix);
-
-        //    // Return the grayscale image
-        //    return grayImg;
-        //}
-        //private Bitmap translateBitmap(Bitmap img, float[][] colorTranslationMatrix)
-        //{
-        //    // Setup color translation
-        //    ColorMatrix colorMatrix = new ColorMatrix(colorTranslationMatrix);
-        //    ImageAttributes imgAttr = new ImageAttributes();
-        //    imgAttr.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-
-        //    // Draw the image with translated colors
-        //    Bitmap trImg = new Bitmap(img.Width, img.Height);
-        //    Graphics g = Graphics.FromImage(trImg);
-        //    g.DrawImage(img, new Rectangle(0, 0, trImg.Width, trImg.Height), 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, imgAttr);
-
-        //    // Return the translated image
-        //    return trImg;
-        //}
         public static void bringToFront(string title)
         {
             // Get a handle to the Calculator application.
@@ -255,5 +143,128 @@ namespace ImgOps
             SetForegroundWindow(handle);
         }
 
+        public static List<Point> GetSubPositions(Bitmap main, Bitmap sub)
+        {
+            Form1 frm1 = new Form1();
+            List<Point> possiblepos = new List<Point>();
+
+            int mainwidth = main.Width;
+            int mainheight = main.Height;
+
+            int subwidth = sub.Width;
+            int subheight = sub.Height;
+
+            int movewidth = mainwidth - subwidth;
+            int moveheight = mainheight - subheight;
+
+            BitmapData bmMainData = main.LockBits(new Rectangle(0, 0, mainwidth, mainheight), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            BitmapData bmSubData = sub.LockBits(new Rectangle(0, 0, subwidth, subheight), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+
+            int bytesMain = Math.Abs(bmMainData.Stride) * mainheight;
+            int strideMain = bmMainData.Stride;
+            System.IntPtr Scan0Main = bmMainData.Scan0;
+            byte[] dataMain = new byte[bytesMain];
+            System.Runtime.InteropServices.Marshal.Copy(Scan0Main, dataMain, 0, bytesMain);
+
+            int bytesSub = Math.Abs(bmSubData.Stride) * subheight;
+            int strideSub = bmSubData.Stride;
+            System.IntPtr Scan0Sub = bmSubData.Scan0;
+            byte[] dataSub = new byte[bytesSub];
+            System.Runtime.InteropServices.Marshal.Copy(Scan0Sub, dataSub, 0, bytesSub);
+
+
+            for (int y = 0; y < moveheight; ++y)
+            {
+                for (int x = 0; x < movewidth; ++x)
+                {
+                    MyColor curcolor = GetColor(x, y, strideMain, dataMain);
+
+                    MyColor subcolor = GetColor(x, y, strideSub, dataSub);
+
+
+                    int screenLeft = SystemInformation.VirtualScreen.Left;
+                    int screenTop = SystemInformation.VirtualScreen.Top;
+                    int screenWidth = SystemInformation.VirtualScreen.Width;
+                    int screenHeight = SystemInformation.VirtualScreen.Height;
+
+                    //using (Bitmap master = new Bitmap(screenWidth, screenHeight))
+                    //{
+                    //    using (Graphics g = Graphics.FromImage(master))
+                    //    {
+                    //        g.CopyFromScreen(screenLeft, screenTop, 0, 0, master.Size);
+
+                    //    }
+                    //}
+
+
+                    foreach (var item in possiblepos.ToArray())
+                    {
+                        int xsub = x - item.X;
+                        int ysub = y - item.Y;
+                        if (xsub >= subwidth || ysub >= subheight || xsub < 0)
+                            continue;
+
+                        if (!curcolor.Equals(subcolor))
+                        {
+                            possiblepos.Remove(item);
+                        }
+                    }
+
+                    if (curcolor.Equals(GetColor(0, 0, strideSub, dataSub)))
+                        possiblepos.Add(new Point(x, y));
+                }
+            }
+
+            System.Runtime.InteropServices.Marshal.Copy(dataSub, 0, Scan0Sub, bytesSub);
+            sub.UnlockBits(bmSubData);
+
+            System.Runtime.InteropServices.Marshal.Copy(dataMain, 0, Scan0Main, bytesMain);
+            main.UnlockBits(bmMainData);
+
+            return possiblepos;
+        }
+
+        private static MyColor GetColor(Point point, int stride, byte[] data)
+        {
+            return GetColor(point.X, point.Y, stride, data);
+        }
+
+        private static MyColor GetColor(int x, int y, int stride, byte[] data)
+        {
+            int pos = y * stride + x * 4;
+            byte a = data[pos + 3];
+            byte r = data[pos + 2];
+            byte g = data[pos + 1];
+            byte b = data[pos + 0];
+            return MyColor.FromARGB(a, r, g, b);
+        }
+
+        struct MyColor
+        {
+            byte A;
+            byte R;
+            byte G;
+            byte B;
+
+            public static MyColor FromARGB(byte a, byte r, byte g, byte b)
+            {
+                MyColor mc = new MyColor();
+                mc.A = a;
+                mc.R = r;
+                mc.G = g;
+                mc.B = b;
+                return mc;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (!(obj is MyColor))
+                    return false;
+                MyColor color = (MyColor)obj;
+                if (color.A == this.A && color.R == this.R && color.G == this.G && color.B == this.B)
+                    return true;
+                return false;
+            }
+        }
     }
 }
