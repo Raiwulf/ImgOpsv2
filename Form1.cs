@@ -1,20 +1,14 @@
-using System;
+
+using AForge.Imaging;
 using System.Diagnostics;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using Emgu.CV;
-using Emgu.CV.CvEnum;
-using Emgu.CV.Reg;
-using Emgu.CV.Structure;
+using Image = System.Drawing.Image;
 
 namespace ImgOps
 {
     public partial class Form1 : Form
     {
-        Process p;
-
         int screenLeft = SystemInformation.VirtualScreen.Left;
         int screenTop = SystemInformation.VirtualScreen.Top;
         int screenWidth = SystemInformation.VirtualScreen.Width;
@@ -51,29 +45,39 @@ namespace ImgOps
         //    }
         //}
 
-        private void pHook_CheckedChanged(object sender, EventArgs e)
+        private void pHook_CheckedChanged(object sender, EventArgs e)//timera çevir
         {
+            bringToFront(pName.Text);
             capturedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/Captured/" + DateTime.Now.ToString("M_d_H_m_s") + ".jpg";
-            
+
             #region Take Screenshot
             // Create a bitmap of the appropriate size to receive the full-screen screenshot.
+
             using (Bitmap bitmap = new Bitmap(screenWidth, screenHeight))
             {
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
+                    Bitmap grayed = new Bitmap(screenWidth, screenHeight);
                     g.CopyFromScreen(screenLeft, screenTop, 0, 0, bitmap.Size);
-                    bitmap.Save(capturedPath);
+                    grayed = b2gray(bitmap);
+                    grayed.Save(capturedPath);
                 }
-                capturedView.Image = Image.FromFile(capturedPath);
-            }
-            Bitmap master = new Bitmap(capturedPath);
-            Bitmap sub = new Bitmap(statesPath + statesList.SelectedItem.ToString() + ".jpg");
 
-            var list = GetSubPositions(master, sub);
-            foreach(var elements in list)
-            {
-                logBox.Items.Add(elements);
+                using (Bitmap oldBmp = new Bitmap(capturedPath))
+                using (Bitmap newBmp = new Bitmap(oldBmp))
+                using (Bitmap targetBmp = newBmp.Clone(new Rectangle(0, 0, newBmp.Width, newBmp.Height), PixelFormat.Format8bppIndexed))
+                    targetBmp.Save(capturedPath);
+                capturedView.Image = Image.FromFile(capturedPath);
+
             }
+            Bitmap sourceImage = new Bitmap(capturedPath);
+            Bitmap template = new Bitmap(statesPath + statesList.SelectedItem.ToString() + ".jpg");
+            cigiScan(sourceImage, template);
+
+            //foreach(var elements in list)
+            //{
+            //    logBox.Items.Add(elements);
+            //}
             #endregion
         }
         private void importPicButton_Click(object sender, EventArgs e)
@@ -90,6 +94,7 @@ namespace ImgOps
 
                 importPicView.Image = Image.FromFile(importDialog.FileName);
                 Bitmap bmp = new Bitmap(importPicView.Image);
+                b2gray(bmp);
                 bmp.Save(statesImg);
             }
 
@@ -142,129 +147,67 @@ namespace ImgOps
             // Make Calculator the foreground application
             SetForegroundWindow(handle);
         }
-
-        public static List<Point> GetSubPositions(Bitmap main, Bitmap sub)
+        public static Bitmap b2gray(Bitmap original)
         {
-            Form1 frm1 = new Form1();
-            List<Point> possiblepos = new List<Point>();
+            //create a blank bitmap the same size as original
+            Bitmap newBitmap = new Bitmap(original.Width, original.Height);
 
-            int mainwidth = main.Width;
-            int mainheight = main.Height;
-
-            int subwidth = sub.Width;
-            int subheight = sub.Height;
-
-            int movewidth = mainwidth - subwidth;
-            int moveheight = mainheight - subheight;
-
-            BitmapData bmMainData = main.LockBits(new Rectangle(0, 0, mainwidth, mainheight), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            BitmapData bmSubData = sub.LockBits(new Rectangle(0, 0, subwidth, subheight), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-
-            int bytesMain = Math.Abs(bmMainData.Stride) * mainheight;
-            int strideMain = bmMainData.Stride;
-            System.IntPtr Scan0Main = bmMainData.Scan0;
-            byte[] dataMain = new byte[bytesMain];
-            System.Runtime.InteropServices.Marshal.Copy(Scan0Main, dataMain, 0, bytesMain);
-
-            int bytesSub = Math.Abs(bmSubData.Stride) * subheight;
-            int strideSub = bmSubData.Stride;
-            System.IntPtr Scan0Sub = bmSubData.Scan0;
-            byte[] dataSub = new byte[bytesSub];
-            System.Runtime.InteropServices.Marshal.Copy(Scan0Sub, dataSub, 0, bytesSub);
-
-
-            for (int y = 0; y < moveheight; ++y)
+            //get a graphics object from the new image
+            using (Graphics g = Graphics.FromImage(newBitmap))
             {
-                for (int x = 0; x < movewidth; ++x)
+
+                //create the grayscale ColorMatrix
+                ColorMatrix colorMatrix = new ColorMatrix(
+                   new float[][]
+                   {
+             new float[] {.3f, .3f, .3f, 0, 0},
+             new float[] {.59f, .59f, .59f, 0, 0},
+             new float[] {.11f, .11f, .11f, 0, 0},
+             new float[] {0, 0, 0, 1, 0},
+             new float[] {0, 0, 0, 0, 1}
+                   });
+
+                //create some image attributes
+                using (ImageAttributes attributes = new ImageAttributes())
                 {
-                    MyColor curcolor = GetColor(x, y, strideMain, dataMain);
 
-                    MyColor subcolor = GetColor(x, y, strideSub, dataSub);
+                    //set the color matrix attribute
+                    attributes.SetColorMatrix(colorMatrix);
 
-
-                    int screenLeft = SystemInformation.VirtualScreen.Left;
-                    int screenTop = SystemInformation.VirtualScreen.Top;
-                    int screenWidth = SystemInformation.VirtualScreen.Width;
-                    int screenHeight = SystemInformation.VirtualScreen.Height;
-
-                    //using (Bitmap master = new Bitmap(screenWidth, screenHeight))
-                    //{
-                    //    using (Graphics g = Graphics.FromImage(master))
-                    //    {
-                    //        g.CopyFromScreen(screenLeft, screenTop, 0, 0, master.Size);
-
-                    //    }
-                    //}
-
-
-                    foreach (var item in possiblepos.ToArray())
-                    {
-                        int xsub = x - item.X;
-                        int ysub = y - item.Y;
-                        if (xsub >= subwidth || ysub >= subheight || xsub < 0)
-                            continue;
-
-                        if (!curcolor.Equals(subcolor))
-                        {
-                            possiblepos.Remove(item);
-                        }
-                    }
-
-                    if (curcolor.Equals(GetColor(0, 0, strideSub, dataSub)))
-                        possiblepos.Add(new Point(x, y));
+                    //draw the original image on the new image
+                    //using the grayscale color matrix
+                    g.DrawImage(original, new Rectangle(0, 0, original.Width, original.Height),
+                                0, 0, original.Width, original.Height, GraphicsUnit.Pixel, attributes);
                 }
             }
-
-            System.Runtime.InteropServices.Marshal.Copy(dataSub, 0, Scan0Sub, bytesSub);
-            sub.UnlockBits(bmSubData);
-
-            System.Runtime.InteropServices.Marshal.Copy(dataMain, 0, Scan0Main, bytesMain);
-            main.UnlockBits(bmMainData);
-
-            return possiblepos;
+            return newBitmap;
         }
 
-        private static MyColor GetColor(Point point, int stride, byte[] data)
+        public void cigiScan(Bitmap sourceImage, Bitmap template)
         {
-            return GetColor(point.X, point.Y, stride, data);
-        }
+            // create template matching algorithm's instance
+            // (set similarity threshold to 92.5%)
 
-        private static MyColor GetColor(int x, int y, int stride, byte[] data)
-        {
-            int pos = y * stride + x * 4;
-            byte a = data[pos + 3];
-            byte r = data[pos + 2];
-            byte g = data[pos + 1];
-            byte b = data[pos + 0];
-            return MyColor.FromARGB(a, r, g, b);
-        }
+            ExhaustiveTemplateMatching tm = new ExhaustiveTemplateMatching(0.921f);
+            // find all matchings with specified above similarity
 
-        struct MyColor
-        {
-            byte A;
-            byte R;
-            byte G;
-            byte B;
+            TemplateMatch[] matchings = tm.ProcessImage(sourceImage, template);
+            // highlight found matchings
 
-            public static MyColor FromARGB(byte a, byte r, byte g, byte b)
+            BitmapData data = sourceImage.LockBits(
+                 new Rectangle(0, 0, sourceImage.Width, sourceImage.Height),
+                 ImageLockMode.ReadWrite, sourceImage.PixelFormat);
+            foreach (TemplateMatch m in matchings)
             {
-                MyColor mc = new MyColor();
-                mc.A = a;
-                mc.R = r;
-                mc.G = g;
-                mc.B = b;
-                return mc;
-            }
 
-            public override bool Equals(object obj)
-            {
-                if (!(obj is MyColor))
-                    return false;
-                MyColor color = (MyColor)obj;
-                if (color.A == this.A && color.R == this.R && color.G == this.G && color.B == this.B)
-                    return true;
-                return false;
+                Drawing.Rectangle(data, m.Rectangle, Color.White);
+
+                MessageBox.Show(m.Rectangle.Location.ToString());
+                // do something else with matching
             }
+            sourceImage.UnlockBits(data);
         }
     }
+
 }
+
