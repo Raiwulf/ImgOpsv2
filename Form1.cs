@@ -59,19 +59,15 @@ namespace ImgOps
                 {
                     Bitmap grayed = new Bitmap(screenWidth, screenHeight);
                     g.CopyFromScreen(screenLeft, screenTop, 0, 0, bitmap.Size);
-                    grayed = b2gray(bitmap);
+                    grayed = b2grayNformat(bitmap);
                     grayed.Save(capturedPath);
                 }
-
-                using (Bitmap oldBmp = new Bitmap(capturedPath))
-                using (Bitmap newBmp = new Bitmap(oldBmp))
-                using (Bitmap targetBmp = newBmp.Clone(new Rectangle(0, 0, newBmp.Width, newBmp.Height), PixelFormat.Format8bppIndexed))
-                    targetBmp.Save(capturedPath);
                 capturedView.Image = Image.FromFile(capturedPath);
-
             }
-            Bitmap sourceImage = new Bitmap(capturedPath);
-            Bitmap template = new Bitmap(statesPath + statesList.SelectedItem.ToString() + ".jpg");
+
+            Bitmap sourceImage = (Bitmap)Bitmap.FromFile(capturedPath);
+            Bitmap template = (Bitmap)Bitmap.FromFile(statesPath + statesList.SelectedItem.ToString() + ".jpg");
+
             cigiScan(sourceImage, template);
 
             //foreach(var elements in list)
@@ -94,15 +90,13 @@ namespace ImgOps
 
                 importPicView.Image = Image.FromFile(importDialog.FileName);
                 Bitmap bmp = new Bitmap(importPicView.Image);
-                b2gray(bmp);
-                bmp.Save(statesImg);
+                Bitmap grayed = b2grayNformat(bmp);
+                grayed.Save(statesImg);
             }
-
             catch (Exception)
             {
                 return;
             }
-
         }
         private void removeStateButton_Click(object sender, EventArgs e)
         {
@@ -147,7 +141,7 @@ namespace ImgOps
             // Make Calculator the foreground application
             SetForegroundWindow(handle);
         }
-        public static Bitmap b2gray(Bitmap original)
+        public static Bitmap b2grayNformat(Bitmap original)
         {
             //create a blank bitmap the same size as original
             Bitmap newBitmap = new Bitmap(original.Width, original.Height);
@@ -160,11 +154,11 @@ namespace ImgOps
                 ColorMatrix colorMatrix = new ColorMatrix(
                    new float[][]
                    {
-             new float[] {.3f, .3f, .3f, 0, 0},
-             new float[] {.59f, .59f, .59f, 0, 0},
-             new float[] {.11f, .11f, .11f, 0, 0},
-             new float[] {0, 0, 0, 1, 0},
-             new float[] {0, 0, 0, 0, 1}
+                     new float[] {.3f, .3f, .3f, 0, 0},
+                     new float[] {.59f, .59f, .59f, 0, 0},
+                     new float[] {.11f, .11f, .11f, 0, 0},
+                     new float[] {0, 0, 0, 1, 0},
+                     new float[] {0, 0, 0, 0, 1}
                    });
 
                 //create some image attributes
@@ -180,15 +174,15 @@ namespace ImgOps
                                 0, 0, original.Width, original.Height, GraphicsUnit.Pixel, attributes);
                 }
             }
-            return newBitmap;
+            Bitmap final = AForge.Imaging.Image.Clone(newBitmap, PixelFormat.Format24bppRgb);
+            return final;
         }
-
         public void cigiScan(Bitmap sourceImage, Bitmap template)
         {
             // create template matching algorithm's instance
             // (set similarity threshold to 92.5%)
 
-            ExhaustiveTemplateMatching tm = new ExhaustiveTemplateMatching(0.921f);
+            ExhaustiveTemplateMatching tm = new ExhaustiveTemplateMatching(0.96f);
             // find all matchings with specified above similarity
 
             TemplateMatch[] matchings = tm.ProcessImage(sourceImage, template);
@@ -202,7 +196,7 @@ namespace ImgOps
 
                 Drawing.Rectangle(data, m.Rectangle, Color.White);
 
-                MessageBox.Show(m.Rectangle.Location.ToString());
+                matrixCheck.Text= (m.Rectangle.Location.ToString());
                 // do something else with matching
             }
             sourceImage.UnlockBits(data);
