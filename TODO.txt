@@ -1,0 +1,45 @@
+﻿<STATES>
+
+Login => clientPanel
+putId
+putPassword
+click"Login"
+
+Server pick => clientPanel
+selectServer
+selectChannel
+click"Enter Server"
+
+Pick Character => clientPanel
+selectCharacter
+click"Start"
+putSubpassword 4 times 1 7 0 1
+click"OK"
+
+Run Bot => botPanel
+click"Bot Engine checkBox"
+clickPlayButton
+clickYesButton
+
+Bot Status =>botPanel
+listenBotStatus
+
+
+[State Identifier]
+
+Default State=>Choose your state
+1st state is def loginState
+
+setState=>Login=>isLogin?Yes=>
+
+setState=>Server pick=>isLoginServer?
+
+setState=>Pick Character=>isInGame? Yes=>14, No=>12
+
+setState=>SubPassword=>isInGame?
+
+setState=>Run Bot=>isBotRun?
+
+setState=>ListenBot=>
+
+ifBotStop=>IfCharOnline?=>setState=>Run Bot

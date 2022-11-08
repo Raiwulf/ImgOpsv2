@@ -1,5 +1,7 @@
-
-using AForge.Imaging;
+using System;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
@@ -9,19 +11,22 @@ namespace ImgOps
 {
     public partial class Form1 : Form
     {
-        int screenLeft = SystemInformation.VirtualScreen.Left;
-        int screenTop = SystemInformation.VirtualScreen.Top;
-        int screenWidth = SystemInformation.VirtualScreen.Width;
-        int screenHeight = SystemInformation.VirtualScreen.Height;
 
-        string capturedPath;
-        string statesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/States/";
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RECT
+        {
+            public int left;
+            public int top;
+            public int right;
+            public int bottom;
+        }
 
-        [DllImport("USER32.DLL", CharSet = CharSet.Unicode)]
-        public static extern IntPtr FindWindow(String lpClassName, String lpWindowName);
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool GetWindowRect(IntPtr hWnd, ref RECT Rect);
 
-        [DllImport("USER32.DLL")]
-        public static extern bool SetForegroundWindow(IntPtr hWnd);
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int Width, int Height, bool Repaint);
+
         public Form1()
         {
             InitializeComponent();
@@ -29,9 +34,7 @@ namespace ImgOps
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps", "Captured"));
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps", "States"));
         }
-        private void Form1_Load(object sender, EventArgs e)
-        {
-        }
+
         //private void pHook_CheckedChanged(object sender, EventArgs e)
         //{
         //    if (pHook.Checked)
@@ -45,39 +48,24 @@ namespace ImgOps
         //    }
         //}
 
+        public static IntPtr WinGetHandle(string wName)
+        {
+            foreach (Process pList in Process.GetProcesses())
+                if (pList.MainWindowTitle.Contains(wName))
+                    return pList.MainWindowHandle;
+
+            return IntPtr.Zero;
+        }
+
+        Eye eye = new Eye();
         private void pHook_CheckedChanged(object sender, EventArgs e)//timera çevir
         {
-            bringToFront(pName.Text);
-            capturedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/Captured/" + DateTime.Now.ToString("M_d_H_m_s") + ".jpg";
-
-            #region Take Screenshot
-            // Create a bitmap of the appropriate size to receive the full-screen screenshot.
-
-            using (Bitmap bitmap = new Bitmap(screenWidth, screenHeight))
-            {
-                using (Graphics g = Graphics.FromImage(bitmap))
-                {
-                    Bitmap grayed = new Bitmap(screenWidth, screenHeight);
-                    g.CopyFromScreen(screenLeft, screenTop, 0, 0, bitmap.Size);
-                    grayed = b2grayNformat(bitmap);
-                    grayed.Save(capturedPath);
-                }
-                capturedView.Image = Image.FromFile(capturedPath);
-            }
-
-            Bitmap sourceImage = (Bitmap)Bitmap.FromFile(capturedPath);
-            Bitmap template = (Bitmap)Bitmap.FromFile(statesPath + statesList.SelectedItem.ToString() + ".jpg");
-
-            cigiScan(sourceImage, template);
-
-            //foreach(var elements in list)
-            //{
-            //    logBox.Items.Add(elements);
-            //}
-            #endregion
+            eye.GetCurrentState();
         }
         private void importPicButton_Click(object sender, EventArgs e)
         {
+
+            string statesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/States/";
             string statesImg = statesPath + statesList.SelectedItem.ToString() + ".jpg";
             try
             {
@@ -113,6 +101,9 @@ namespace ImgOps
         }
         private void statesList_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+            string statesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/States/";
+
             try
             {
                 importPicView.Image = Image.FromFile(statesPath + statesList.SelectedItem.ToString() + ".jpg");
@@ -126,20 +117,6 @@ namespace ImgOps
             {
                 return;
             }
-        }
-        public static void bringToFront(string title)
-        {
-            // Get a handle to the Calculator application.
-            IntPtr handle = FindWindow(null, title);
-
-            // Verify that Calculator is a running process.
-            if (handle == IntPtr.Zero)
-            {
-                return;
-            }
-
-            // Make Calculator the foreground application
-            SetForegroundWindow(handle);
         }
         public static Bitmap b2grayNformat(Bitmap original)
         {
@@ -177,29 +154,8 @@ namespace ImgOps
             Bitmap final = AForge.Imaging.Image.Clone(newBitmap, PixelFormat.Format24bppRgb);
             return final;
         }
-        public void cigiScan(Bitmap sourceImage, Bitmap template)
+        private void testButton_Click(object sender, EventArgs e)
         {
-            // create template matching algorithm's instance
-            // (set similarity threshold to 92.5%)
-
-            ExhaustiveTemplateMatching tm = new ExhaustiveTemplateMatching(0.96f);
-            // find all matchings with specified above similarity
-
-            TemplateMatch[] matchings = tm.ProcessImage(sourceImage, template);
-            // highlight found matchings
-
-            BitmapData data = sourceImage.LockBits(
-                 new Rectangle(0, 0, sourceImage.Width, sourceImage.Height),
-                 ImageLockMode.ReadWrite, sourceImage.PixelFormat);
-            foreach (TemplateMatch m in matchings)
-            {
-
-                Drawing.Rectangle(data, m.Rectangle, Color.White);
-
-                matrixCheck.Text= (m.Rectangle.Location.ToString());
-                // do something else with matching
-            }
-            sourceImage.UnlockBits(data);
         }
     }
 
