@@ -42,4 +42,8 @@ setState=>Run Bot=>isBotRun?
 
 setState=>ListenBot=>
 
-ifBotStop=>IfCharOnline?=>setState=>Run Bot
+ifBotStop=>IfCharOnline?=> Yes=>47, No=> 49
+
+setState=>Run Bot
+
+setSTate=>Login

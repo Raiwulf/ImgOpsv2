@@ -17,7 +17,6 @@ namespace ImgOps
             {
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
-
                     var capSize = new Size(width,
                                   screenHeight);
 

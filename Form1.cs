@@ -27,12 +27,14 @@ namespace ImgOps
         [DllImport("user32.dll", SetLastError = true)]
         static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int Width, int Height, bool Repaint);
 
+        Eye eye = new Eye();
         public Form1()
         {
             InitializeComponent();
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ImgOps"));
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps", "Captured"));
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps", "States"));
+            
         }
 
         //private void pHook_CheckedChanged(object sender, EventArgs e)
@@ -57,10 +59,9 @@ namespace ImgOps
             return IntPtr.Zero;
         }
 
-        Eye eye = new Eye();
         private void pHook_CheckedChanged(object sender, EventArgs e)//timera çevir
         {
-            eye.GetCurrentState();
+            eye.SetCurrentState("1_Login");
         }
         private void importPicButton_Click(object sender, EventArgs e)
         {
@@ -101,15 +102,12 @@ namespace ImgOps
         }
         private void statesList_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             string statesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/States/";
-
             try
             {
                 importPicView.Image = Image.FromFile(statesPath + statesList.SelectedItem.ToString() + ".jpg");
                 if (String.IsNullOrEmpty(importPicView.Image.ToString()))
                 {
-
                     importPicView.Image = null;
                 }
             }

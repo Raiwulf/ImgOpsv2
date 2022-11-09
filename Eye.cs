@@ -14,7 +14,7 @@ namespace ImgOps
         
         Bitmap statesImg;
         List<String> states;
-        public String GetCurrentState()
+        public String SetPanel()
         {
             int screenWidth = SystemInformation.VirtualScreen.Width;
             Form1 form = new Form1();
@@ -36,13 +36,28 @@ namespace ImgOps
             return panel;
         }
 
-        public void SetCurrentState(string panel)
+        public void SetCurrentState(string state)
         {
-            if (panel == "botPanel")
+            switch (state)
             {
-            }
-            else if (panel == "clientPanel")
-            {
+                case "1_Login":
+
+                    break;
+                case "2_ServerPick":
+
+                    break;
+                case "3_CharacterPick":
+
+                    break;
+                case "4_SubPassword":
+
+                    break;
+                case "5_RunBot":
+
+                    break;
+                case "6_ListenBot":
+
+                    break;
             }
 
             currState = null;
