@@ -9,17 +9,18 @@ namespace ImgOps
 {
     public class Eye
     {
-        string currState;
+        string currentState;
         string panel;
-        
+
+        Bitmap kek;
+
         Bitmap statesImg;
-        List<String> states;
-        public String SetPanel()
+        public void SetPanel(string panel)
         {
             int screenWidth = SystemInformation.VirtualScreen.Width;
             Form1 form = new Form1();
-            Capture capture = new Capture();// ilk parametre start, ikinci parametre width
-            if (true)
+            Capture capture = new Capture();// ilk param: start, iki: param width, uc: panel
+            if (panel== "botPanel")
             {
                 Bitmap botPanel = capture.CapIt(0, 250, "botPanel");
                 form.logBox.Items.Add(DateTime.Now.ToString("dd/MM HH:mm:ss") + " Captured botPanel");
@@ -33,7 +34,6 @@ namespace ImgOps
                 getMatch(clientPanel, statesImg);
                 panel= "clientPanel";
             }
-            return panel;
         }
 
         public void SetCurrentState(string state)
@@ -41,33 +41,84 @@ namespace ImgOps
             switch (state)
             {
                 case "1_Login":
-
+                    State state1 = new State
+                    {
+                        stateName = "1_Login",
+                        stateImg = kek,
+                        panel = "clientPanel",
+                        isSet = true
+                    };
+                    SetPanel(panel);
+                    currentState = state1.stateName;
                     break;
+
                 case "2_ServerPick":
-
+                    State state2 = new State
+                    {
+                        stateName = "2_ServerPick",
+                        stateImg = kek,
+                        panel = "clientPanel",
+                        isSet = true
+                    };
+                    SetPanel(panel);
+                    currentState = state2.stateName;
                     break;
+
                 case "3_CharacterPick":
-
+                    State state3 = new State
+                    {
+                        stateName = "3_CharacterPick",
+                        stateImg = kek,
+                        panel = "clientPanel",
+                        isSet = true
+                    };
+                    SetPanel(panel);
+                    currentState = state3.stateName;
                     break;
+
                 case "4_SubPassword":
-
+                    State state4 = new State
+                    {
+                        stateName = "4_SubPassword",
+                        stateImg = kek,
+                        panel = "clientPanel",
+                        isSet = true
+                    };
+                    SetPanel(panel);
+                    currentState = state4.stateName;
                     break;
+
                 case "5_RunBot":
-
+                    State state5 = new State
+                    {
+                        stateName = "5_RunBot",
+                        stateImg = kek,
+                        panel = "clientPanel",
+                        isSet = true
+                    };
+                    SetPanel(panel);
+                    currentState = state5.stateName;
                     break;
-                case "6_ListenBot":
 
+                case "6_ListenBot":
+                    State state6 = new State
+                    {
+                        stateName = "6_ListenBot",
+                        stateImg = kek,
+                        panel = "botPanel",
+                        isSet = true
+                    };
+                    SetPanel(panel);
+                    currentState = state6.stateName;
                     break;
             }
-
-            currState = null;
         }
 
-        public void getMatch(Bitmap sourceImage, Bitmap template)
+        public Point getMatch(Bitmap sourceImage, Bitmap template)
         {
             // create template matching algorithm's instance
             // (set similarity threshold to 92.5%)
-
+            
             ExhaustiveTemplateMatching tm = new ExhaustiveTemplateMatching(0.96f);
             // find all matchings with specified above similarity
 
@@ -77,14 +128,14 @@ namespace ImgOps
             BitmapData data = sourceImage.LockBits(
                  new Rectangle(0, 0, sourceImage.Width, sourceImage.Height),
                  ImageLockMode.ReadWrite, sourceImage.PixelFormat);
-            foreach (TemplateMatch m in matchings)
-            {
-                Drawing.Rectangle(data, m.Rectangle, Color.White);
-                // do something else with matching
-
-                var a = (m.Rectangle.Location.ToString());
-            }
+            
+            Drawing.Rectangle(data, matchings[0].Rectangle, Color.White);
+            // do something else with matching
+            Point center = new Point((matchings[0].Rectangle.Left + matchings[0].Rectangle.Right) / 2, (matchings[0].Rectangle.Top + matchings[0].Rectangle.Bottom) / 2);
+            
             sourceImage.UnlockBits(data);
+
+            return center;
         }
     }
 }
