@@ -18,18 +18,17 @@ namespace ImgOps
         public void SetPanel(string panel)
         {
             int screenWidth = SystemInformation.VirtualScreen.Width;
-            Form1 form = new Form1();
-            Capture capture = new Capture();// ilk param: start, iki: param width, uc: panel
+            Form1 form = new Form1();;// ilk param: start, iki: param width, uc: panel
             if (panel== "botPanel")
             {
-                Bitmap botPanel = capture.CapIt(0, 250, "botPanel");
+                Bitmap botPanel = CaptureManager.CapIt(0, 250, "botPanel");
                 form.logBox.Items.Add(DateTime.Now.ToString("dd/MM HH:mm:ss") + " Captured botPanel");
                 getMatch(botPanel, statesImg);
                 panel= "botPanel";
             }
             else
             {
-                Bitmap clientPanel = capture.CapIt(250, screenWidth - 250, "Client");
+                Bitmap clientPanel = CaptureManager.CapIt(250, screenWidth - 250, "Client");
                 form.logBox.Items.Add(DateTime.Now.ToString("dd/MM HH:mm:ss") + " Captured clientPanel");
                 getMatch(clientPanel, statesImg);
                 panel= "clientPanel";
@@ -47,7 +46,7 @@ namespace ImgOps
                         stateImg = kek,
                         panel = "clientPanel",
                         isSet = true
-                    };
+                    };//chain of respo pattern
                     SetPanel(panel);
                     currentState = state1.stateName;
                     break;

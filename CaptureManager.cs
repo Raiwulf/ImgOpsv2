@@ -5,9 +5,9 @@ using System.Windows.Forms;
 
 namespace ImgOps
 {
-    public class Capture
+    public class CaptureManager
     {
-        public Bitmap CapIt(int x,int width, string capName)
+        public static Bitmap CapIt(int x,int width, string capName)
         {
             int screenTop = SystemInformation.VirtualScreen.Top;
             int screenHeight = SystemInformation.VirtualScreen.Height;

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace ImgOps
 {
     public class State
-    {
+    {//state manager 
         public State() { }
 
         public State(string stateName, Bitmap stateImg, string panel, bool isSet)
