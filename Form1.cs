@@ -12,6 +12,8 @@ namespace ImgOps
     public partial class Form1 : Form
     {
 
+        string statesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/States/";
+
         [StructLayout(LayoutKind.Sequential)]
         public struct RECT
         {
@@ -34,7 +36,8 @@ namespace ImgOps
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ImgOps"));
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps", "Captured"));
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps", "States"));
-            
+
+
         }
 
         //private void pHook_CheckedChanged(object sender, EventArgs e)
@@ -61,7 +64,6 @@ namespace ImgOps
 
         private void pHook_CheckedChanged(object sender, EventArgs e)//timera çevir
         {
-            eye.SetCurrentState("1_Login");
         }
         private void importPicButton_Click(object sender, EventArgs e)
         {
@@ -102,7 +104,6 @@ namespace ImgOps
         }
         private void statesList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string statesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/States/";
             try
             {
                 importPicView.Image = Image.FromFile(statesPath + statesList.SelectedItem.ToString() + ".jpg");
@@ -118,6 +119,17 @@ namespace ImgOps
         }
         private void testButton_Click(object sender, EventArgs e)
         {
+            StateManager stateManager = new StateManager();
+            stateManager.GetStates();
+            var currentState = stateManager.SetState(0);
+            currentState.stateImg = (Bitmap)Image.FromFile(statesPath + currentState.stateName + ".jpg");
+            processBox.Image = currentState.stateImg;
+            logBox.Items.Add(currentState.stateName);
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 
