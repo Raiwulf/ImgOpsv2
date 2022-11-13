@@ -137,38 +137,31 @@ namespace ImgOps
         {
             Computer computer = new Computer()
             {
-                ID = pcId.Text,
                 PC = pcName.Text,
                 CHAR1 = char1.Text,
-                char1Pw = char1pw.Text,
                 CHAR2 = char2.Text,
-                char2Pw = char2pw.Text,
                 CHAR3 = char3.Text,
-                char3Pw = char3pw.Text,
                 HOOK = webHook.Text
             };
             client = new FirebaseClient(fbase);
-            var SetPC = client.Set("Computers/"+pcId.Text, computer);
+            var SetPC = client.Set("Computers/"+pcName.Text, computer);
         }
         private void pHook_CheckedChanged(object sender, EventArgs e)//timera çevir
         {
             client = new FireSharp.FirebaseClient(fbase);
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
-            dataGridView1.Columns.Add("ID", "ID");
             dataGridView1.Columns.Add("PC", "PC");
             dataGridView1.Columns.Add("CHAR1", "CHAR1");
-            dataGridView1.Columns.Add("char1Pw", "char1Pw");
             dataGridView1.Columns.Add("CHAR2", "CHAR2");
-            dataGridView1.Columns.Add("char2Pw", "char2Pw");
             dataGridView1.Columns.Add("CHAR3", "CHAR3");
-            dataGridView1.Columns.Add("char3Pw", "char3Pw");
             dataGridView1.Columns.Add("HOOK", "HOOK");
-            FirebaseResponse getData = client.Get("Computers");
-            Dictionary<string, Computer> loaded = JsonConvert.DeserializeObject<Dictionary<string, Computer>>(getData.Body.ToString());
-            foreach (var item in loaded)
+            FirebaseResponse getData = client.Get(@"Computers");
+            List<Computer> computers = new List<Computer>();
+            computers = JsonConvert.DeserializeObject<List<Computer>>(getData.Body.ToString());
+            foreach (var item in computers)
             {
-                dataGridView1.Rows.Add(item.Value.ID,item.Value.PC,item.Value.CHAR1,item.Value.char1Pw,item.Value.CHAR2,item.Value.char2Pw,item.Value.CHAR3,item.Value.char3Pw,item.Value.HOOK);
+                dataGridView1.Rows.Add(item.PC,item.CHAR1,item.CHAR2,item.CHAR3,item.HOOK);
             }
         }
     }

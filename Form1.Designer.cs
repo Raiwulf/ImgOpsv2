@@ -36,6 +36,7 @@ namespace ImgOps
             this.panel2 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.HomeTab = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.scanIntLabel = new System.Windows.Forms.Label();
             this.scanInt = new System.Windows.Forms.TextBox();
             this.pName = new System.Windows.Forms.TextBox();
@@ -62,26 +63,18 @@ namespace ImgOps
             this.char3 = new System.Windows.Forms.TextBox();
             this.char2 = new System.Windows.Forms.TextBox();
             this.pcName = new System.Windows.Forms.TextBox();
-            this.pcId = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.importDialog = new System.Windows.Forms.OpenFileDialog();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.char1pw = new System.Windows.Forms.TextBox();
-            this.char2pw = new System.Windows.Forms.TextBox();
-            this.char3pw = new System.Windows.Forms.TextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.HomeTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.StatesTab.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.importPicView)).BeginInit();
@@ -90,7 +83,6 @@ namespace ImgOps
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.ComputersTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -152,6 +144,20 @@ namespace ImgOps
             this.HomeTab.TabIndex = 0;
             this.HomeTab.Text = "Home";
             this.HomeTab.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeColumns = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 29);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(612, 257);
+            this.dataGridView1.TabIndex = 6;
             // 
             // scanIntLabel
             // 
@@ -361,25 +367,17 @@ namespace ImgOps
             // 
             // ComputersTab
             // 
-            this.ComputersTab.Controls.Add(this.label10);
-            this.ComputersTab.Controls.Add(this.label9);
-            this.ComputersTab.Controls.Add(this.label8);
             this.ComputersTab.Controls.Add(this.addPC);
-            this.ComputersTab.Controls.Add(this.char3pw);
-            this.ComputersTab.Controls.Add(this.char2pw);
-            this.ComputersTab.Controls.Add(this.char1pw);
             this.ComputersTab.Controls.Add(this.char1);
             this.ComputersTab.Controls.Add(this.webHook);
             this.ComputersTab.Controls.Add(this.char3);
             this.ComputersTab.Controls.Add(this.char2);
             this.ComputersTab.Controls.Add(this.pcName);
-            this.ComputersTab.Controls.Add(this.pcId);
             this.ComputersTab.Controls.Add(this.label7);
             this.ComputersTab.Controls.Add(this.label6);
             this.ComputersTab.Controls.Add(this.label5);
             this.ComputersTab.Controls.Add(this.label4);
             this.ComputersTab.Controls.Add(this.label3);
-            this.ComputersTab.Controls.Add(this.label2);
             this.ComputersTab.Location = new System.Drawing.Point(4, 22);
             this.ComputersTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ComputersTab.Name = "ComputersTab";
@@ -433,13 +431,6 @@ namespace ImgOps
             this.pcName.Size = new System.Drawing.Size(100, 20);
             this.pcName.TabIndex = 1;
             // 
-            // pcId
-            // 
-            this.pcId.Location = new System.Drawing.Point(70, 13);
-            this.pcId.Name = "pcId";
-            this.pcId.Size = new System.Drawing.Size(100, 20);
-            this.pcId.TabIndex = 1;
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -485,74 +476,9 @@ namespace ImgOps
             this.label3.TabIndex = 0;
             this.label3.Text = "Name";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 16);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(18, 13);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "ID";
-            // 
             // importDialog
             // 
             this.importDialog.FileName = "openFileDialog1";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(176, 82);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(59, 13);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "Password: ";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(176, 118);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(59, 13);
-            this.label9.TabIndex = 3;
-            this.label9.Text = "Password: ";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(176, 151);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(59, 13);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "Password: ";
-            // 
-            // char1pw
-            // 
-            this.char1pw.Location = new System.Drawing.Point(241, 79);
-            this.char1pw.Name = "char1pw";
-            this.char1pw.Size = new System.Drawing.Size(100, 20);
-            this.char1pw.TabIndex = 1;
-            // 
-            // char2pw
-            // 
-            this.char2pw.Location = new System.Drawing.Point(241, 115);
-            this.char2pw.Name = "char2pw";
-            this.char2pw.Size = new System.Drawing.Size(100, 20);
-            this.char2pw.TabIndex = 1;
-            // 
-            // char3pw
-            // 
-            this.char3pw.Location = new System.Drawing.Point(241, 148);
-            this.char3pw.Name = "char3pw";
-            this.char3pw.Size = new System.Drawing.Size(100, 20);
-            this.char3pw.TabIndex = 1;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 29);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(612, 257);
-            this.dataGridView1.TabIndex = 6;
             // 
             // Form1
             // 
@@ -569,6 +495,7 @@ namespace ImgOps
             this.tabControl1.ResumeLayout(false);
             this.HomeTab.ResumeLayout(false);
             this.HomeTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.StatesTab.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.importPicView)).EndInit();
@@ -579,7 +506,6 @@ namespace ImgOps
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ComputersTab.ResumeLayout(false);
             this.ComputersTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -613,25 +539,17 @@ namespace ImgOps
         private ListView listView1;
         public PictureBox pictureBox1;
         public PictureBox pictureBox2;
-        private Label label2;
         private TextBox char1;
         private TextBox webHook;
         private TextBox char3;
         private TextBox char2;
         private TextBox pcName;
-        private TextBox pcId;
         private Label label7;
         private Label label6;
         private Label label5;
         private Label label4;
         private Label label3;
         private Button addPC;
-        private Label label10;
-        private Label label9;
-        private Label label8;
-        private TextBox char3pw;
-        private TextBox char2pw;
-        private TextBox char1pw;
-        private DataGridView dataGridView1;
+        public DataGridView dataGridView1;
     }
 }

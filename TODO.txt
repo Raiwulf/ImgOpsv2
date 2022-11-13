@@ -1,4 +1,6 @@
-﻿<STATES>
+﻿//ENUMERATOR EKLE - namespace'e koy-
+
+<STATES>
 
 Login => clientPanel
 putId

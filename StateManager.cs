@@ -15,8 +15,9 @@ namespace ImgOps
         State currState = new State();
         Eye eye = new Eye();
         InputOps inputOps = new InputOps();
-        string username ;
-        string password ;
+        string username;
+        string password;
+        //ENUMERATOR EKLE
         public void GetStates()//yakında dbden cekecek
         {
             string statesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/States/";
@@ -27,121 +28,84 @@ namespace ImgOps
             (
                 0,
                 "Login",
-                null,
-                target,
-                "clientPanel",
-                false
+                target
             ),
             new State
             (
                 1,
                 "ServerPick",
-                null,
-                target,
-                "clientPanel",
-                false
+                target
             ),
             new State
             (
                 2,
                 "PostServer",
-                null,
-                target,
-                "clientPanel",
-                false
+                target
             ),
             new State
             (
                 3,
                 "SubPassword1",
-                null,
-                target,
-                "clientPanel",
-                false
+                target
             ),
             new State
             (
                 4,
                 "SubPassword2",
-                null,
-                target,
-                "clientPanel",
-                false
+                target
             ),
             new State
             (
                 5,
                 "SubPassword3",
-                null,
-                target,
-                "clientPanel",
-                false
+                target
             ),
             new State
             (
                 6,
                 "SubPassword4",
-                null,
-                target,
-                "clientPanel",
-                false
+                target
             ),new State
             (
                 7,
                 "SubPassword5",
-                null,
-                target,
-                "clientPanel",
-                false
+                target
             ),
             new State
             (
                 8,
                 "RunBot",
-                null,
                 target,
-                "botPanel",
-                false
+                "botPanel"
             ),
             new State
             (
                 9,
                 "RunBotPrompt",
-                null,
-                target,
-                "clientPanel",
-                false
+                target
             ),
             new State
             (
                 10,
                 "ListenBot",
-                null,
                 target,
-                "botPanel",
-                false
+                "botPanel"
             ),
             new State
             (
                 11,
                 "ListenGame",
-                null,
-                target,
-                "clientPanel",
-                false
+                target
             ),
             new State
             (
                 -1,
                 "Error",
-                null,
-                target,
-                null,
-                false
+                target
             )
         });
         }
-        public State SetState(int stateId)
+        public void SetState(int stateId)
         {
             currState = statesList[stateId];
             currState.stateImg = (Bitmap)Image.FromFile(statesPath + currState.stateName + ".jpg");
@@ -149,15 +113,12 @@ namespace ImgOps
             {
                 currState.target = eye.GetPixel(currState.panel, currState.stateImg);
                 StateOps(currState.stateId, currState.target, eye, inputOps);
-                return statesList[stateId];
             }
             catch (Exception)
             {
-                SetState(currState.stateId-1);
-                return statesList[currState.stateId - 1];
+                SetState(currState.stateId - 1);
             }
         }
-
         public void StateOps(int stateId, Point pixel, Eye eye, InputOps inputOps)
         {
             switch (stateId)
@@ -169,7 +130,7 @@ namespace ImgOps
                     inputOps.DoKey(VirtualKeyCode.RETURN);
                     inputOps.DoubleClick(pixel);
                     inputOps.DoClear();
-                    inputOps.DoString("cabaleski000");
+                    inputOps.DoString(form.dataGridView1.SelectedCells.ToString());
                     inputOps.DoKey(VirtualKeyCode.TAB);
                     inputOps.DoClear();
                     inputOps.DoString("1999Ceren");
@@ -194,7 +155,7 @@ namespace ImgOps
                     {
                         SetState(3);
                         break;
-                    } 
+                    }
                 case 3://sub1
                     inputOps.DoKey(VirtualKeyCode.RETURN);
                     inputOps.DoClick(pixel);
@@ -233,18 +194,17 @@ namespace ImgOps
                         if (stopCount == 2)
                         {
                             form.AddLog("Retry Count: " + stopCount.ToString());
-                            SetState(1);
+                            SetState(0);
                             stopCount = 0;
                         }
                         SetState(8);
                         Thread.Sleep(1000);
-                        break;
                     }
                     catch (Exception)
                     {
-                        SetState(10);
-                        break;
+                        SetState(8);
                     }
+                    break;
             }
         }
     }
