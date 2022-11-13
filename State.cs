@@ -11,11 +11,12 @@ namespace ImgOps
     {//state manager 
         public State() { }
 
-        public State(int stateId, string stateName, Bitmap stateImg, string panel, bool isSet)
+        public State(int stateId, string stateName, Bitmap stateImg, Point target, string panel, bool isSet)
         {
             this.stateId = stateId;
             this.stateName = stateName;
             this.stateImg = stateImg;
+            this.target = target;
             this.panel = panel;
             this.isSet = isSet;
         }
@@ -23,6 +24,7 @@ namespace ImgOps
         public string stateName { get; set; }
         public string panel { get; set; }
         public Bitmap stateImg { get; set; }
+        public Point target { get; set; }
         public bool isSet { get; set; }
     }
 }

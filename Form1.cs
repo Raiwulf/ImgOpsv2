@@ -3,33 +3,37 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using Image = System.Drawing.Image;
+using System.Linq;
+using FireSharp.Config;
+using FireSharp.Interfaces;
+using FireSharp.Response;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using FireSharp;
 
 namespace ImgOps
 {
     public partial class Form1 : Form
     {
-
-        string statesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/States/";
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct RECT
+        IFirebaseConfig fbase = new FirebaseConfig
         {
-            public int left;
-            public int top;
-            public int right;
-            public int bottom;
+            AuthSecret = "T3BXwyrzk8JqYvXBJAKwrKikAWR9LaEgtHA9KWHl",
+            BasePath = "https://dcbot-7b0eb-default-rtdb.europe-west1.firebasedatabase.app/"
+        };
+        IFirebaseClient client;
+
+        List<String> listPC = new List<String>();
+        FirebaseResponse response = null;
+        [DllImport("user32.dll")]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
+        private void BringToFront()
+        {
+            Process p = Process.GetProcessesByName("CabalMain").First();
+            SetForegroundWindow(p.MainWindowHandle);
         }
-
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern bool GetWindowRect(IntPtr hWnd, ref RECT Rect);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int Width, int Height, bool Repaint);
-
-        Eye eye = new Eye();
+        string statesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/States/";
         public Form1()
         {
             InitializeComponent();
@@ -52,19 +56,6 @@ namespace ImgOps
         //        timer1.Stop();
         //    }
         //}
-
-        public static IntPtr WinGetHandle(string wName)
-        {
-            foreach (Process pList in Process.GetProcesses())
-                if (pList.MainWindowTitle.Contains(wName))
-                    return pList.MainWindowHandle;
-
-            return IntPtr.Zero;
-        }
-
-        private void pHook_CheckedChanged(object sender, EventArgs e)//timera çevir
-        {
-        }
         private void importPicButton_Click(object sender, EventArgs e)
         {
 
@@ -117,19 +108,68 @@ namespace ImgOps
                 return;
             }
         }
+
+        public void AddLog(string text)
+        {
+            logBox.Items.Add(DateTime.Now.ToString("dd/MM HH:mm:ss ") + text);
+        }
         private void testButton_Click(object sender, EventArgs e)
         {
-            StateManager stateManager = new StateManager();
-            stateManager.GetStates();
-            var currentState = stateManager.SetState(0);
-            currentState.stateImg = (Bitmap)Image.FromFile(statesPath + currentState.stateName + ".jpg");
-            processBox.Image = currentState.stateImg;
-            logBox.Items.Add(currentState.stateName);
+            client = new FireSharp.FirebaseClient(fbase);
+
+            List<String> listData = new List<String>();
+            FirebaseResponse response = null;
+            var result = response.Body;
+            if (client != null)
+                MessageBox.Show("Established connection");
+            //StateManager stateManager = new StateManager();
+            //BringToFront();
+            //stateManager.GetStates();
+            //var cState = stateManager.SetState(0);
+            //pictureBox1.Image = cState.stateImg;
+            //int i = 16;
+            //currentState.stateImg = (Bitmap)Image.FromFile(statesPath + currentState.stateName + ".jpg");
+            //processBox.Image = currentState.stateImg;
+            //logBox.Items.Add(currentState.stateName);
+
         }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void addPC_Click_1(object sender, EventArgs e)
         {
-
+            Computer computer = new Computer()
+            {
+                ID = pcId.Text,
+                PC = pcName.Text,
+                CHAR1 = char1.Text,
+                char1Pw = char1pw.Text,
+                CHAR2 = char2.Text,
+                char2Pw = char2pw.Text,
+                CHAR3 = char3.Text,
+                char3Pw = char3pw.Text,
+                HOOK = webHook.Text
+            };
+            client = new FirebaseClient(fbase);
+            var SetPC = client.Set("Computers/"+pcId.Text, computer);
+        }
+        private void pHook_CheckedChanged(object sender, EventArgs e)//timera çevir
+        {
+            client = new FireSharp.FirebaseClient(fbase);
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+            dataGridView1.Columns.Add("ID", "ID");
+            dataGridView1.Columns.Add("PC", "PC");
+            dataGridView1.Columns.Add("CHAR1", "CHAR1");
+            dataGridView1.Columns.Add("char1Pw", "char1Pw");
+            dataGridView1.Columns.Add("CHAR2", "CHAR2");
+            dataGridView1.Columns.Add("char2Pw", "char2Pw");
+            dataGridView1.Columns.Add("CHAR3", "CHAR3");
+            dataGridView1.Columns.Add("char3Pw", "char3Pw");
+            dataGridView1.Columns.Add("HOOK", "HOOK");
+            FirebaseResponse getData = client.Get("Computers");
+            Dictionary<string, Computer> loaded = JsonConvert.DeserializeObject<Dictionary<string, Computer>>(getData.Body.ToString());
+            foreach (var item in loaded)
+            {
+                dataGridView1.Rows.Add(item.Value.ID,item.Value.PC,item.Value.CHAR1,item.Value.char1Pw,item.Value.CHAR2,item.Value.char2Pw,item.Value.CHAR3,item.Value.char3Pw,item.Value.HOOK);
+            }
         }
     }
 

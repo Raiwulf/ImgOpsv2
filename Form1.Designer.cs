@@ -31,24 +31,16 @@ namespace ImgOps
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "kkek",
-            ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("kek2");
             this.panel1 = new System.Windows.Forms.Panel();
             this.logBox = new System.Windows.Forms.ListBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.matrixCheck = new System.Windows.Forms.Label();
+            this.HomeTab = new System.Windows.Forms.TabPage();
             this.scanIntLabel = new System.Windows.Forms.Label();
             this.scanInt = new System.Windows.Forms.TextBox();
-            this.processBox = new System.Windows.Forms.PictureBox();
-            this.capturedView = new System.Windows.Forms.PictureBox();
             this.pName = new System.Windows.Forms.TextBox();
             this.pHook = new System.Windows.Forms.CheckBox();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.StatesTab = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
             this.listView1 = new System.Windows.Forms.ListView();
             this.importPicView = new System.Windows.Forms.PictureBox();
@@ -59,22 +51,46 @@ namespace ImgOps
             this.addStateButton = new System.Windows.Forms.Button();
             this.removeStateButton = new System.Windows.Forms.Button();
             this.statesList = new System.Windows.Forms.CheckedListBox();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.TestTab = new System.Windows.Forms.TabPage();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.testButton = new System.Windows.Forms.Button();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.ComputersTab = new System.Windows.Forms.TabPage();
+            this.addPC = new System.Windows.Forms.Button();
+            this.char1 = new System.Windows.Forms.TextBox();
+            this.webHook = new System.Windows.Forms.TextBox();
+            this.char3 = new System.Windows.Forms.TextBox();
+            this.char2 = new System.Windows.Forms.TextBox();
+            this.pcName = new System.Windows.Forms.TextBox();
+            this.pcId = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.importDialog = new System.Windows.Forms.OpenFileDialog();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.char1pw = new System.Windows.Forms.TextBox();
+            this.char2pw = new System.Windows.Forms.TextBox();
+            this.char3pw = new System.Windows.Forms.TextBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.processBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.capturedView)).BeginInit();
-            this.tabPage2.SuspendLayout();
+            this.HomeTab.SuspendLayout();
+            this.StatesTab.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.importPicView)).BeginInit();
             this.panel3.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.TestTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.ComputersTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -109,10 +125,10 @@ namespace ImgOps
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.HomeTab);
+            this.tabControl1.Controls.Add(this.StatesTab);
+            this.tabControl1.Controls.Add(this.TestTab);
+            this.tabControl1.Controls.Add(this.ComputersTab);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -121,38 +137,26 @@ namespace ImgOps
             this.tabControl1.Size = new System.Drawing.Size(620, 311);
             this.tabControl1.TabIndex = 0;
             // 
-            // tabPage1
+            // HomeTab
             // 
-            this.tabPage1.Controls.Add(this.matrixCheck);
-            this.tabPage1.Controls.Add(this.scanIntLabel);
-            this.tabPage1.Controls.Add(this.scanInt);
-            this.tabPage1.Controls.Add(this.processBox);
-            this.tabPage1.Controls.Add(this.capturedView);
-            this.tabPage1.Controls.Add(this.pName);
-            this.tabPage1.Controls.Add(this.pHook);
-            this.tabPage1.Controls.Add(this.checkedListBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(612, 285);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Home";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // matrixCheck
-            // 
-            this.matrixCheck.AutoSize = true;
-            this.matrixCheck.Location = new System.Drawing.Point(573, 7);
-            this.matrixCheck.Name = "matrixCheck";
-            this.matrixCheck.Size = new System.Drawing.Size(35, 13);
-            this.matrixCheck.TabIndex = 6;
-            this.matrixCheck.Text = "label2";
+            this.HomeTab.Controls.Add(this.dataGridView1);
+            this.HomeTab.Controls.Add(this.scanIntLabel);
+            this.HomeTab.Controls.Add(this.scanInt);
+            this.HomeTab.Controls.Add(this.pName);
+            this.HomeTab.Controls.Add(this.pHook);
+            this.HomeTab.Location = new System.Drawing.Point(4, 22);
+            this.HomeTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.HomeTab.Name = "HomeTab";
+            this.HomeTab.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.HomeTab.Size = new System.Drawing.Size(612, 285);
+            this.HomeTab.TabIndex = 0;
+            this.HomeTab.Text = "Home";
+            this.HomeTab.UseVisualStyleBackColor = true;
             // 
             // scanIntLabel
             // 
             this.scanIntLabel.AutoSize = true;
-            this.scanIntLabel.Location = new System.Drawing.Point(368, 7);
+            this.scanIntLabel.Location = new System.Drawing.Point(484, 6);
             this.scanIntLabel.Name = "scanIntLabel";
             this.scanIntLabel.Size = new System.Drawing.Size(119, 13);
             this.scanIntLabel.TabIndex = 5;
@@ -160,35 +164,15 @@ namespace ImgOps
             // 
             // scanInt
             // 
-            this.scanInt.Location = new System.Drawing.Point(277, 5);
+            this.scanInt.Location = new System.Drawing.Point(393, 4);
             this.scanInt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.scanInt.Name = "scanInt";
             this.scanInt.Size = new System.Drawing.Size(86, 20);
             this.scanInt.TabIndex = 4;
             // 
-            // processBox
-            // 
-            this.processBox.Location = new System.Drawing.Point(362, 30);
-            this.processBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.processBox.Name = "processBox";
-            this.processBox.Size = new System.Drawing.Size(252, 251);
-            this.processBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.processBox.TabIndex = 3;
-            this.processBox.TabStop = false;
-            // 
-            // capturedView
-            // 
-            this.capturedView.Location = new System.Drawing.Point(111, 30);
-            this.capturedView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.capturedView.Name = "capturedView";
-            this.capturedView.Size = new System.Drawing.Size(252, 251);
-            this.capturedView.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.capturedView.TabIndex = 3;
-            this.capturedView.TabStop = false;
-            // 
             // pName
             // 
-            this.pName.Location = new System.Drawing.Point(111, 5);
+            this.pName.Location = new System.Drawing.Point(227, 4);
             this.pName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pName.Name = "pName";
             this.pName.Size = new System.Drawing.Size(86, 20);
@@ -197,7 +181,7 @@ namespace ImgOps
             // pHook
             // 
             this.pHook.AutoSize = true;
-            this.pHook.Location = new System.Drawing.Point(201, 7);
+            this.pHook.Location = new System.Drawing.Point(317, 6);
             this.pHook.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pHook.Name = "pHook";
             this.pHook.Size = new System.Drawing.Size(80, 17);
@@ -206,41 +190,18 @@ namespace ImgOps
             this.pHook.UseVisualStyleBackColor = true;
             this.pHook.CheckedChanged += new System.EventHandler(this.pHook_CheckedChanged);
             // 
-            // checkedListBox1
+            // StatesTab
             // 
-            this.checkedListBox1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Items.AddRange(new object[] {
-            "PC1",
-            "PC2",
-            "PC3",
-            "PC4",
-            "PC5",
-            "PC6",
-            "PC7",
-            "PC8",
-            "PC9",
-            "PC10",
-            "PC11",
-            "PC12"});
-            this.checkedListBox1.Location = new System.Drawing.Point(3, 2);
-            this.checkedListBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(103, 281);
-            this.checkedListBox1.TabIndex = 0;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.panel4);
-            this.tabPage2.Controls.Add(this.panel3);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Size = new System.Drawing.Size(612, 285);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "States";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.StatesTab.Controls.Add(this.panel4);
+            this.StatesTab.Controls.Add(this.panel3);
+            this.StatesTab.Location = new System.Drawing.Point(4, 22);
+            this.StatesTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.StatesTab.Name = "StatesTab";
+            this.StatesTab.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.StatesTab.Size = new System.Drawing.Size(612, 285);
+            this.StatesTab.TabIndex = 1;
+            this.StatesTab.Text = "States";
+            this.StatesTab.UseVisualStyleBackColor = true;
             // 
             // panel4
             // 
@@ -257,16 +218,11 @@ namespace ImgOps
             // listView1
             // 
             this.listView1.HideSelection = false;
-            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2});
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(121, 97);
-            this.listView1.TabIndex = 7;
+            this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // importPicView
             // 
@@ -364,16 +320,34 @@ namespace ImgOps
             this.statesList.TabIndex = 1;
             this.statesList.SelectedIndexChanged += new System.EventHandler(this.statesList_SelectedIndexChanged);
             // 
-            // tabPage3
+            // TestTab
             // 
-            this.tabPage3.Controls.Add(this.testButton);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(612, 285);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "tabPage3";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.TestTab.Controls.Add(this.pictureBox2);
+            this.TestTab.Controls.Add(this.pictureBox1);
+            this.TestTab.Controls.Add(this.testButton);
+            this.TestTab.Location = new System.Drawing.Point(4, 22);
+            this.TestTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TestTab.Name = "TestTab";
+            this.TestTab.Size = new System.Drawing.Size(612, 285);
+            this.TestTab.TabIndex = 2;
+            this.TestTab.Text = "tabPage3";
+            this.TestTab.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Location = new System.Drawing.Point(189, 0);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(415, 256);
+            this.pictureBox2.TabIndex = 2;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(183, 87);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
             // 
             // testButton
             // 
@@ -385,19 +359,200 @@ namespace ImgOps
             this.testButton.UseVisualStyleBackColor = true;
             this.testButton.Click += new System.EventHandler(this.testButton_Click);
             // 
-            // tabPage4
+            // ComputersTab
             // 
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(612, 285);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "tabPage4";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.ComputersTab.Controls.Add(this.label10);
+            this.ComputersTab.Controls.Add(this.label9);
+            this.ComputersTab.Controls.Add(this.label8);
+            this.ComputersTab.Controls.Add(this.addPC);
+            this.ComputersTab.Controls.Add(this.char3pw);
+            this.ComputersTab.Controls.Add(this.char2pw);
+            this.ComputersTab.Controls.Add(this.char1pw);
+            this.ComputersTab.Controls.Add(this.char1);
+            this.ComputersTab.Controls.Add(this.webHook);
+            this.ComputersTab.Controls.Add(this.char3);
+            this.ComputersTab.Controls.Add(this.char2);
+            this.ComputersTab.Controls.Add(this.pcName);
+            this.ComputersTab.Controls.Add(this.pcId);
+            this.ComputersTab.Controls.Add(this.label7);
+            this.ComputersTab.Controls.Add(this.label6);
+            this.ComputersTab.Controls.Add(this.label5);
+            this.ComputersTab.Controls.Add(this.label4);
+            this.ComputersTab.Controls.Add(this.label3);
+            this.ComputersTab.Controls.Add(this.label2);
+            this.ComputersTab.Location = new System.Drawing.Point(4, 22);
+            this.ComputersTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ComputersTab.Name = "ComputersTab";
+            this.ComputersTab.Size = new System.Drawing.Size(612, 285);
+            this.ComputersTab.TabIndex = 3;
+            this.ComputersTab.Text = "PC";
+            this.ComputersTab.UseVisualStyleBackColor = true;
+            // 
+            // addPC
+            // 
+            this.addPC.Location = new System.Drawing.Point(11, 218);
+            this.addPC.Name = "addPC";
+            this.addPC.Size = new System.Drawing.Size(75, 23);
+            this.addPC.TabIndex = 2;
+            this.addPC.Text = "AddPC";
+            this.addPC.UseVisualStyleBackColor = true;
+            this.addPC.Click += new System.EventHandler(this.addPC_Click_1);
+            // 
+            // char1
+            // 
+            this.char1.Location = new System.Drawing.Point(70, 79);
+            this.char1.Name = "char1";
+            this.char1.Size = new System.Drawing.Size(100, 20);
+            this.char1.TabIndex = 1;
+            // 
+            // webHook
+            // 
+            this.webHook.Location = new System.Drawing.Point(70, 179);
+            this.webHook.Name = "webHook";
+            this.webHook.Size = new System.Drawing.Size(100, 20);
+            this.webHook.TabIndex = 1;
+            // 
+            // char3
+            // 
+            this.char3.Location = new System.Drawing.Point(70, 148);
+            this.char3.Name = "char3";
+            this.char3.Size = new System.Drawing.Size(100, 20);
+            this.char3.TabIndex = 1;
+            // 
+            // char2
+            // 
+            this.char2.Location = new System.Drawing.Point(70, 115);
+            this.char2.Name = "char2";
+            this.char2.Size = new System.Drawing.Size(100, 20);
+            this.char2.TabIndex = 1;
+            // 
+            // pcName
+            // 
+            this.pcName.Location = new System.Drawing.Point(70, 45);
+            this.pcName.Name = "pcName";
+            this.pcName.Size = new System.Drawing.Size(100, 20);
+            this.pcName.TabIndex = 1;
+            // 
+            // pcId
+            // 
+            this.pcId.Location = new System.Drawing.Point(70, 13);
+            this.pcId.Name = "pcId";
+            this.pcId.Size = new System.Drawing.Size(100, 20);
+            this.pcId.TabIndex = 1;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(8, 182);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(56, 13);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "WebHook";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(8, 151);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(35, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Char3";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(8, 118);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(35, 13);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Char2";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(8, 82);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Char1";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(8, 48);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Name";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(18, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "ID";
             // 
             // importDialog
             // 
             this.importDialog.FileName = "openFileDialog1";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(176, 82);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(59, 13);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "Password: ";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(176, 118);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(59, 13);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "Password: ";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(176, 151);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(59, 13);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Password: ";
+            // 
+            // char1pw
+            // 
+            this.char1pw.Location = new System.Drawing.Point(241, 79);
+            this.char1pw.Name = "char1pw";
+            this.char1pw.Size = new System.Drawing.Size(100, 20);
+            this.char1pw.TabIndex = 1;
+            // 
+            // char2pw
+            // 
+            this.char2pw.Location = new System.Drawing.Point(241, 115);
+            this.char2pw.Name = "char2pw";
+            this.char2pw.Size = new System.Drawing.Size(100, 20);
+            this.char2pw.TabIndex = 1;
+            // 
+            // char3pw
+            // 
+            this.char3pw.Location = new System.Drawing.Point(241, 148);
+            this.char3pw.Name = "char3pw";
+            this.char3pw.Size = new System.Drawing.Size(100, 20);
+            this.char3pw.TabIndex = 1;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 29);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(612, 257);
+            this.dataGridView1.TabIndex = 6;
             // 
             // Form1
             // 
@@ -412,16 +567,19 @@ namespace ImgOps
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.processBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.capturedView)).EndInit();
-            this.tabPage2.ResumeLayout(false);
+            this.HomeTab.ResumeLayout(false);
+            this.HomeTab.PerformLayout();
+            this.StatesTab.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.importPicView)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
+            this.TestTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.ComputersTab.ResumeLayout(false);
+            this.ComputersTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -432,30 +590,48 @@ namespace ImgOps
         public ListBox logBox;
         private Panel panel2;
         private TabControl tabControl1;
-        private TabPage tabPage1;
-        private TabPage tabPage2;
+        private TabPage HomeTab;
+        private TabPage StatesTab;
         private Panel panel4;
         private PictureBox importPicView;
         private Button importPicButton;
         private Panel panel3;
         private Button addStateButton;
         private Button removeStateButton;
-        private TabPage tabPage3;
-        private TabPage tabPage4;
+        private TabPage TestTab;
+        private TabPage ComputersTab;
         private TextBox pName;
         private CheckBox pHook;
         private System.Windows.Forms.Timer timer1;
         private OpenFileDialog importDialog;
         private TextBox addStateName;
-        private PictureBox capturedView;
         private Label scanIntLabel;
         private TextBox scanInt;
         private Label label1;
-        private Label matrixCheck;
-        private PictureBox processBox;
         private CheckedListBox statesList;
         private Button testButton;
-        private CheckedListBox checkedListBox1;
         private ListView listView1;
+        public PictureBox pictureBox1;
+        public PictureBox pictureBox2;
+        private Label label2;
+        private TextBox char1;
+        private TextBox webHook;
+        private TextBox char3;
+        private TextBox char2;
+        private TextBox pcName;
+        private TextBox pcId;
+        private Label label7;
+        private Label label6;
+        private Label label5;
+        private Label label4;
+        private Label label3;
+        private Button addPC;
+        private Label label10;
+        private Label label9;
+        private Label label8;
+        private TextBox char3pw;
+        private TextBox char2pw;
+        private TextBox char1pw;
+        private DataGridView dataGridView1;
     }
 }
