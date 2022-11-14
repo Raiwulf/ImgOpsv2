@@ -40,8 +40,6 @@ namespace ImgOps
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ImgOps"));
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps", "Captured"));
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps", "States"));
-
-
         }
 
         //private void pHook_CheckedChanged(object sender, EventArgs e)
@@ -58,7 +56,6 @@ namespace ImgOps
         //}
         private void importPicButton_Click(object sender, EventArgs e)
         {
-
             string statesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/States/";
             string statesImg = statesPath + statesList.SelectedItem.ToString() + ".jpg";
             try
@@ -66,7 +63,7 @@ namespace ImgOps
                 importDialog.InitialDirectory = statesPath;
                 importDialog.Title = "Insert the object image";
                 importDialog.FileName = "";
-                importDialog.Filter = "Images|*.jpg;*.jpeg;*.bmp;*.png";
+                importDialog.Filter = "Images|*.jpg;*.jpeg;*.bmp;*.png";//constantlara çek
 
                 importDialog.ShowDialog();
 
@@ -163,6 +160,11 @@ namespace ImgOps
             {
                 dataGridView1.Rows.Add(item.PC,item.CHAR1,item.CHAR2,item.CHAR3,item.HOOK);
             }
+        }
+
+        private void logBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 

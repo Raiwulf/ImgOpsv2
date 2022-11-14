@@ -7,19 +7,17 @@ namespace ImgOps
 {
     public class CaptureManager
     {
-        public static Bitmap CapIt(int x,int width, string capName)
+        public static Bitmap CapIt(int x, int width, string capName)
         {
             int screenTop = SystemInformation.VirtualScreen.Top;
             int screenHeight = SystemInformation.VirtualScreen.Height;
             string capturedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/Captured/";
-
             using (Bitmap bitmap = new Bitmap(width, screenHeight))
             {
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
                     var capSize = new Size(width,
                                   screenHeight);
-
                     Bitmap grayed = new Bitmap(width, screenHeight);
                     g.CopyFromScreen(x, screenTop, 0, 0, capSize);
                     grayed = b2grayNformat(bitmap);
@@ -28,16 +26,13 @@ namespace ImgOps
                 }
             }
         }
-
         public static Bitmap b2grayNformat(Bitmap original)
         {
             //create a blank bitmap the same size as original
             Bitmap newBitmap = new Bitmap(original.Width, original.Height);
-
             //get a graphics object from the new image
             using (Graphics g = Graphics.FromImage(newBitmap))
             {
-
                 //create the grayscale ColorMatrix
                 ColorMatrix colorMatrix = new ColorMatrix(
                    new float[][]
@@ -48,7 +43,6 @@ namespace ImgOps
                      new float[] {0, 0, 0, 1, 0},
                      new float[] {0, 0, 0, 0, 1}
                    });
-
                 //create some image attributes
                 using (ImageAttributes attributes = new ImageAttributes())
                 {
@@ -65,9 +59,5 @@ namespace ImgOps
             Bitmap final = AForge.Imaging.Image.Clone(newBitmap, PixelFormat.Format24bppRgb);
             return final;
         }
-
     }
 }
-
-
-

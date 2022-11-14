@@ -104,6 +104,7 @@ namespace ImgOps
             this.logBox.Name = "logBox";
             this.logBox.Size = new System.Drawing.Size(620, 123);
             this.logBox.TabIndex = 0;
+            this.logBox.SelectedIndexChanged += new System.EventHandler(this.logBox_SelectedIndexChanged);
             // 
             // panel2
             // 
@@ -155,6 +156,7 @@ namespace ImgOps
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView1.Location = new System.Drawing.Point(0, 29);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridView1.Size = new System.Drawing.Size(612, 257);
             this.dataGridView1.TabIndex = 6;
@@ -190,9 +192,9 @@ namespace ImgOps
             this.pHook.Location = new System.Drawing.Point(317, 6);
             this.pHook.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pHook.Name = "pHook";
-            this.pHook.Size = new System.Drawing.Size(80, 17);
+            this.pHook.Size = new System.Drawing.Size(48, 17);
             this.pHook.TabIndex = 1;
-            this.pHook.Text = "checkBox1";
+            this.pHook.Text = "Start";
             this.pHook.UseVisualStyleBackColor = true;
             this.pHook.CheckedChanged += new System.EventHandler(this.pHook_CheckedChanged);
             // 
