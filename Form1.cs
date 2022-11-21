@@ -25,6 +25,7 @@ namespace ImgOps
         IFirebaseClient client;
         List<String> listPC = new List<String>();
         FirebaseResponse response = null;
+        public static string username;
         public Form1()
         {
             InitializeComponent();
@@ -69,6 +70,15 @@ namespace ImgOps
         {
             StateManager stateManager = new StateManager();
             stateManager.GetStates();
+            long n = long.Parse(DateTime.Now.ToString("HHmm"));
+            if (2<=n && n<=10)
+            {
+                username = dgv.SelectedCells[0].Value.ToString();
+            }
+            else if (10 < n)
+            {
+
+            }
             stateManager.SetState(0);
         }
         public void AddLog(string text)
@@ -93,9 +103,9 @@ namespace ImgOps
                 dgv.Rows.Add(item.PC, item.CHAR1, item.CHAR2, item.CHAR3, item.HOOK);
             }
         }
+
         private void dgv_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
         }
     }
 }

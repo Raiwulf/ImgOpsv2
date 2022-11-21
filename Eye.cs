@@ -31,26 +31,17 @@ namespace ImgOps
                 return pixel;
             }
         }
-
         public Point GetMatch(Bitmap sourceImage, Bitmap template)
         {
-            // create template matching algorithm's instance
-            // (set similarity threshold to 92.5%)
-
             ExhaustiveTemplateMatching tm = new ExhaustiveTemplateMatching(0.80f);
-            // find all matchings with specified above similarity
             TemplateMatch[] matchings = tm.ProcessImage(sourceImage, template);
-            // highlight found matchings
-
             BitmapData data = sourceImage.LockBits(
                  new Rectangle(0, 0, sourceImage.Width, sourceImage.Height),
                  ImageLockMode.ReadWrite, sourceImage.PixelFormat);
-
             Drawing.Rectangle(data, matchings[0].Rectangle, Color.White);
             // do something else with matching
             Point center = new Point((matchings[0].Rectangle.Left + matchings[0].Rectangle.Right) / 2, (matchings[0].Rectangle.Top + matchings[0].Rectangle.Bottom) / 2);
             sourceImage.UnlockBits(data);
-
             return center;
         }
     }

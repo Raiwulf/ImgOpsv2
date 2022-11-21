@@ -18,8 +18,8 @@ namespace ImgOps
             Process p = Process.GetProcessesByName("CabalMain").FirstOrDefault();
             SetForegroundWindow(p.MainWindowHandle);
         }
-
         List<State> statesList = new List<State>();
+        Form1 form = new Form1();
         int stopCount = 0;
         string statesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/States/";
         State currState = new State();
@@ -102,7 +102,7 @@ namespace ImgOps
             new State
             (
                 11,
-                "ListenGame",
+                "ForceDC",
                 target
             ),
             new State
@@ -140,19 +140,26 @@ namespace ImgOps
                     inputOps.DoKey(VirtualKeyCode.RETURN);
                     inputOps.DoubleClick(pixel);
                     inputOps.DoClear();
-                    inputOps.DoString("cihatb");
+                    inputOps.DoString(Form1.username);
                     inputOps.DoKey(VirtualKeyCode.TAB);
                     inputOps.DoClear();
                     inputOps.DoString("1999Ceren");
                     inputOps.DoKey(VirtualKeyCode.RETURN);
-                    Thread.Sleep(8000);
+                    Thread.Sleep(2000);
                     SetState(1);
                     break;
                 case 1://ServerPick
                     try
                     {
-                        inputOps.DoubleClick(pixel);
-                        Thread.Sleep(8000);
+                        for (int i = 0; i < 9; i++)
+                        {
+                            inputOps.DoKey(VirtualKeyCode.DOWN);
+                        }
+                        Thread.Sleep(2000);
+                        inputOps.DoKey(VirtualKeyCode.RETURN);
+                        inputOps.DoKey(VirtualKeyCode.RETURN);
+                        Thread.Sleep(2000);
+                        inputOps.DoKey(VirtualKeyCode.RETURN);
                         SetState(2);
                     }
                     catch (Exception)
@@ -165,20 +172,24 @@ namespace ImgOps
                     }
                     break;
                 case 2://postServerPick
-                    inputOps.DoKey(VirtualKeyCode.RETURN);
                     try
                     {
+                        Thread.Sleep(2000);
                         inputOps.DoClick(pixel);
-                        SetState(8);
+                        SetState(3);
                         break;
                     }
                     catch (Exception)
                     {
-                        SetState(3);
+                        Thread.Sleep(2000);
+                        inputOps.DoKey(VirtualKeyCode.RETURN);
+                        SetState(8);
                         break;
                     }
                 case 3://sub1
+                    BringToFront();
                     inputOps.DoKey(VirtualKeyCode.RETURN);
+                    Thread.Sleep(2000);
                     inputOps.DoClick(pixel);
                     SetState(4);
                     break;
@@ -195,16 +206,18 @@ namespace ImgOps
                     SetState(7);
                     break;
                 case 7://subOK
-                    inputOps.DoubleClick(pixel);
+                    inputOps.DoClick(pixel);
                     SetState(8);
+                    Thread.Sleep(8000);
                     break;
                 case 8://RunBot
-                    inputOps.DoubleClick(pixel);
-                    Thread.Sleep(2000);
+                    inputOps.DoClick(pixel);
+                    Thread.Sleep(4000);
                     SetState(9);
                     break;
                 case 9://RunBotPrompt
-                    inputOps.DoubleClick(pixel);
+                    inputOps.DoClick(pixel);
+                    Thread.Sleep(4000);
                     SetState(10);
                     break;
                 case 10://ListenBot
@@ -214,9 +227,8 @@ namespace ImgOps
                         stopCount++;
                         if (stopCount == 2)
                         {
-                            //form.AddLog("Retry Count: " + stopCount.ToString());
-                            SetState(0);
                             stopCount = 0;
+                            SetState(11);
                         }
                         SetState(8);
                         Thread.Sleep(1000);
@@ -225,6 +237,11 @@ namespace ImgOps
                     {
                         SetState(8);
                     }
+                    break;
+                case 11://ForceDC
+                    inputOps.DoClick(pixel);
+                    Thread.Sleep(4000);
+                    SetState(0);
                     break;
                 case 99://error
                     //form.AddLog("error");

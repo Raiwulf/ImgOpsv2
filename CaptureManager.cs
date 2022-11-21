@@ -12,7 +12,6 @@ namespace ImgOps
             int screenTop = SystemInformation.VirtualScreen.Top;
             int screenHeight = SystemInformation.VirtualScreen.Height;
             string capturedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/Captured/";
-
             using (Bitmap bitmap = new Bitmap(width, screenHeight))
             {
                 using (Graphics g = Graphics.FromImage(bitmap))
@@ -66,6 +65,3 @@ namespace ImgOps
         }
     }
 }
-
-
-
