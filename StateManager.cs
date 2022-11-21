@@ -32,7 +32,7 @@ namespace ImgOps
             statesList.Clear();
             Point target = new Point();
             statesList.AddRange(new List<State>{
-            new State
+            new State//proivder ekle oradan cagir
             (
                 0,
                 "Login",
@@ -149,9 +149,20 @@ namespace ImgOps
                     SetState(1);
                     break;
                 case 1://ServerPick
-                    inputOps.DoubleClick(pixel);
-                    Thread.Sleep(8000);
-                    SetState(2);
+                    try
+                    {
+                        inputOps.DoubleClick(pixel);
+                        Thread.Sleep(8000);
+                        SetState(2);
+                    }
+                    catch (Exception)
+                    {
+                        stopCount++;
+                        if(stopCount == 3)
+                        {
+                            SetState(-1);
+                        }
+                    }
                     break;
                 case 2://postServerPick
                     inputOps.DoKey(VirtualKeyCode.RETURN);
