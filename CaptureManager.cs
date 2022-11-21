@@ -7,7 +7,7 @@ namespace ImgOps
 {
     public class CaptureManager
     {
-        public static Bitmap CapIt(int x,int width, string capName)
+        public static Bitmap CapIt(int x,int width, int y, int height, string capName)
         {
             int screenTop = SystemInformation.VirtualScreen.Top;
             int screenHeight = SystemInformation.VirtualScreen.Height;
@@ -20,15 +20,14 @@ namespace ImgOps
                     var capSize = new Size(width,
                                   screenHeight);
 
-                    Bitmap grayed = new Bitmap(width, screenHeight);
-                    g.CopyFromScreen(x, screenTop, 0, 0, capSize);
+                    Bitmap grayed = new Bitmap(width, height);
+                    g.CopyFromScreen(x, y, 0, 0, capSize);
                     grayed = b2grayNformat(bitmap);
                     grayed.Save(capturedPath + capName + ".jpg");
                     return grayed;
                 }
             }
         }
-
         public static Bitmap b2grayNformat(Bitmap original)
         {
             //create a blank bitmap the same size as original
@@ -65,7 +64,6 @@ namespace ImgOps
             Bitmap final = AForge.Imaging.Image.Clone(newBitmap, PixelFormat.Format24bppRgb);
             return final;
         }
-
     }
 }
 

@@ -36,22 +36,13 @@ namespace ImgOps
             this.panel2 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.HomeTab = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.loadDb = new System.Windows.Forms.Button();
+            this.dgv = new System.Windows.Forms.DataGridView();
             this.scanIntLabel = new System.Windows.Forms.Label();
             this.scanInt = new System.Windows.Forms.TextBox();
             this.pName = new System.Windows.Forms.TextBox();
             this.pHook = new System.Windows.Forms.CheckBox();
             this.StatesTab = new System.Windows.Forms.TabPage();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.importPicView = new System.Windows.Forms.PictureBox();
-            this.importPicButton = new System.Windows.Forms.Button();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.addStateName = new System.Windows.Forms.TextBox();
-            this.addStateButton = new System.Windows.Forms.Button();
-            this.removeStateButton = new System.Windows.Forms.Button();
-            this.statesList = new System.Windows.Forms.CheckedListBox();
             this.TestTab = new System.Windows.Forms.TabPage();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -69,16 +60,11 @@ namespace ImgOps
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.importDialog = new System.Windows.Forms.OpenFileDialog();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.HomeTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.StatesTab.SuspendLayout();
-            this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.importPicView)).BeginInit();
-            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.TestTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -131,7 +117,8 @@ namespace ImgOps
             // 
             // HomeTab
             // 
-            this.HomeTab.Controls.Add(this.dataGridView1);
+            this.HomeTab.Controls.Add(this.loadDb);
+            this.HomeTab.Controls.Add(this.dgv);
             this.HomeTab.Controls.Add(this.scanIntLabel);
             this.HomeTab.Controls.Add(this.scanInt);
             this.HomeTab.Controls.Add(this.pName);
@@ -145,19 +132,30 @@ namespace ImgOps
             this.HomeTab.Text = "Home";
             this.HomeTab.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // loadDb
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToResizeColumns = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 29);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(612, 257);
-            this.dataGridView1.TabIndex = 6;
+            this.loadDb.Location = new System.Drawing.Point(146, 3);
+            this.loadDb.Name = "loadDb";
+            this.loadDb.Size = new System.Drawing.Size(75, 23);
+            this.loadDb.TabIndex = 7;
+            this.loadDb.Text = "Load DB";
+            this.loadDb.UseVisualStyleBackColor = true;
+            this.loadDb.Click += new System.EventHandler(this.loadDb_Click);
+            // 
+            // dgv
+            // 
+            this.dgv.AllowUserToAddRows = false;
+            this.dgv.AllowUserToDeleteRows = false;
+            this.dgv.AllowUserToResizeColumns = false;
+            this.dgv.AllowUserToResizeRows = false;
+            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgv.Location = new System.Drawing.Point(0, 29);
+            this.dgv.Name = "dgv";
+            this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgv.Size = new System.Drawing.Size(612, 257);
+            this.dgv.TabIndex = 6;
+            this.dgv.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellContentClick);
             // 
             // scanIntLabel
             // 
@@ -198,8 +196,6 @@ namespace ImgOps
             // 
             // StatesTab
             // 
-            this.StatesTab.Controls.Add(this.panel4);
-            this.StatesTab.Controls.Add(this.panel3);
             this.StatesTab.Location = new System.Drawing.Point(4, 22);
             this.StatesTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.StatesTab.Name = "StatesTab";
@@ -208,123 +204,6 @@ namespace ImgOps
             this.StatesTab.TabIndex = 1;
             this.StatesTab.Text = "States";
             this.StatesTab.UseVisualStyleBackColor = true;
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.listView1);
-            this.panel4.Controls.Add(this.importPicView);
-            this.panel4.Controls.Add(this.importPicButton);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(174, 2);
-            this.panel4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(435, 281);
-            this.panel4.TabIndex = 1;
-            // 
-            // listView1
-            // 
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(0, 0);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(121, 97);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            // 
-            // importPicView
-            // 
-            this.importPicView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.importPicView.Location = new System.Drawing.Point(0, 0);
-            this.importPicView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.importPicView.Name = "importPicView";
-            this.importPicView.Size = new System.Drawing.Size(435, 262);
-            this.importPicView.TabIndex = 1;
-            this.importPicView.TabStop = false;
-            // 
-            // importPicButton
-            // 
-            this.importPicButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.importPicButton.Location = new System.Drawing.Point(0, 262);
-            this.importPicButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.importPicButton.Name = "importPicButton";
-            this.importPicButton.Size = new System.Drawing.Size(435, 19);
-            this.importPicButton.TabIndex = 0;
-            this.importPicButton.Text = "Import";
-            this.importPicButton.UseVisualStyleBackColor = true;
-            this.importPicButton.Click += new System.EventHandler(this.importPicButton_Click);
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.label1);
-            this.panel3.Controls.Add(this.addStateName);
-            this.panel3.Controls.Add(this.addStateButton);
-            this.panel3.Controls.Add(this.removeStateButton);
-            this.panel3.Controls.Add(this.statesList);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel3.Location = new System.Drawing.Point(3, 2);
-            this.panel3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(171, 281);
-            this.panel3.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 229);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(66, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "State Name:";
-            // 
-            // addStateName
-            // 
-            this.addStateName.Location = new System.Drawing.Point(69, 226);
-            this.addStateName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.addStateName.Name = "addStateName";
-            this.addStateName.Size = new System.Drawing.Size(103, 20);
-            this.addStateName.TabIndex = 5;
-            // 
-            // addStateButton
-            // 
-            this.addStateButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.addStateButton.Location = new System.Drawing.Point(0, 243);
-            this.addStateButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.addStateButton.Name = "addStateButton";
-            this.addStateButton.Size = new System.Drawing.Size(171, 19);
-            this.addStateButton.TabIndex = 2;
-            this.addStateButton.Text = "Add State";
-            this.addStateButton.UseVisualStyleBackColor = true;
-            this.addStateButton.Click += new System.EventHandler(this.addStateButton_Click);
-            // 
-            // removeStateButton
-            // 
-            this.removeStateButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.removeStateButton.Location = new System.Drawing.Point(0, 262);
-            this.removeStateButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.removeStateButton.Name = "removeStateButton";
-            this.removeStateButton.Size = new System.Drawing.Size(171, 19);
-            this.removeStateButton.TabIndex = 2;
-            this.removeStateButton.Text = "Remove State";
-            this.removeStateButton.UseVisualStyleBackColor = true;
-            this.removeStateButton.Click += new System.EventHandler(this.removeStateButton_Click);
-            // 
-            // statesList
-            // 
-            this.statesList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.statesList.FormattingEnabled = true;
-            this.statesList.Items.AddRange(new object[] {
-            "1_Login",
-            "2_ServerPick",
-            "3_CharacterPick",
-            "4_SubPassword",
-            "5_RunBot",
-            "6_ListenBot"});
-            this.statesList.Location = new System.Drawing.Point(0, 0);
-            this.statesList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.statesList.Name = "statesList";
-            this.statesList.Size = new System.Drawing.Size(171, 281);
-            this.statesList.Sorted = true;
-            this.statesList.TabIndex = 1;
-            this.statesList.SelectedIndexChanged += new System.EventHandler(this.statesList_SelectedIndexChanged);
             // 
             // TestTab
             // 
@@ -476,10 +355,6 @@ namespace ImgOps
             this.label3.TabIndex = 0;
             this.label3.Text = "Name";
             // 
-            // importDialog
-            // 
-            this.importDialog.FileName = "openFileDialog1";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -495,12 +370,7 @@ namespace ImgOps
             this.tabControl1.ResumeLayout(false);
             this.HomeTab.ResumeLayout(false);
             this.HomeTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.StatesTab.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.importPicView)).EndInit();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.TestTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -518,25 +388,14 @@ namespace ImgOps
         private TabControl tabControl1;
         private TabPage HomeTab;
         private TabPage StatesTab;
-        private Panel panel4;
-        private PictureBox importPicView;
-        private Button importPicButton;
-        private Panel panel3;
-        private Button addStateButton;
-        private Button removeStateButton;
         private TabPage TestTab;
         private TabPage ComputersTab;
         private TextBox pName;
         private CheckBox pHook;
         private System.Windows.Forms.Timer timer1;
-        private OpenFileDialog importDialog;
-        private TextBox addStateName;
         private Label scanIntLabel;
         private TextBox scanInt;
-        private Label label1;
-        private CheckedListBox statesList;
         private Button testButton;
-        private ListView listView1;
         public PictureBox pictureBox1;
         public PictureBox pictureBox2;
         private TextBox char1;
@@ -550,6 +409,7 @@ namespace ImgOps
         private Label label4;
         private Label label3;
         private Button addPC;
-        public DataGridView dataGridView1;
+        public DataGridView dgv;
+        private Button loadDb;
     }
 }

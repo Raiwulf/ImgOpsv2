@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using WindowsInput.Native;
 
@@ -8,15 +11,20 @@ namespace ImgOps
 {
     public class StateManager
     {
+        [DllImport("user32.dll")]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
+        public void BringToFront()
+        {
+            Process p = Process.GetProcessesByName("CabalMain").FirstOrDefault();
+            SetForegroundWindow(p.MainWindowHandle);
+        }
+
         List<State> statesList = new List<State>();
-        Form1 form = new Form1();
         int stopCount = 0;
         string statesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/States/";
         State currState = new State();
         Eye eye = new Eye();
         InputOps inputOps = new InputOps();
-        string username;
-        string password;
         //ENUMERATOR EKLE
         public void GetStates()//yakında dbden cekecek
         {
@@ -99,11 +107,12 @@ namespace ImgOps
             ),
             new State
             (
-                -1,
+                99,
                 "Error",
                 target
             )
         });
+            State currState = statesList[0];
         }
         public void SetState(int stateId)
         {
@@ -112,25 +121,26 @@ namespace ImgOps
             try
             {
                 currState.target = eye.GetPixel(currState.panel, currState.stateImg);
-                StateOps(currState.stateId, currState.target, eye, inputOps);
             }
             catch (Exception)
             {
                 SetState(currState.stateId - 1);
+            }
+            finally
+            {
+                StateOps(currState.stateId, currState.target, eye, inputOps);
             }
         }
         public void StateOps(int stateId, Point pixel, Eye eye, InputOps inputOps)
         {
             switch (stateId)
             {
-                case -1://error
-                    form.AddLog("error");
-                    break;
                 case 0://login
+                    BringToFront();
                     inputOps.DoKey(VirtualKeyCode.RETURN);
                     inputOps.DoubleClick(pixel);
                     inputOps.DoClear();
-                    inputOps.DoString(form.dataGridView1.SelectedCells.ToString());
+                    inputOps.DoString("cihatb");
                     inputOps.DoKey(VirtualKeyCode.TAB);
                     inputOps.DoClear();
                     inputOps.DoString("1999Ceren");
@@ -193,7 +203,7 @@ namespace ImgOps
                         stopCount++;
                         if (stopCount == 2)
                         {
-                            form.AddLog("Retry Count: " + stopCount.ToString());
+                            //form.AddLog("Retry Count: " + stopCount.ToString());
                             SetState(0);
                             stopCount = 0;
                         }
@@ -204,6 +214,9 @@ namespace ImgOps
                     {
                         SetState(8);
                     }
+                    break;
+                case 99://error
+                    //form.AddLog("error");
                     break;
             }
         }
