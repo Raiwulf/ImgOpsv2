@@ -1,17 +1,19 @@
 using System;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using Image = System.Drawing.Image;
-using System.Linq;
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using FireSharp;
+using System.Threading;
+using Discord.Net;
+using static System.Net.Mime.MediaTypeNames;
+using System.Net;
+using System.Diagnostics;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace ImgOps
 {
@@ -23,9 +25,18 @@ namespace ImgOps
             BasePath = "https://dcbot-7b0eb-default-rtdb.europe-west1.firebasedatabase.app/"
         };
         IFirebaseClient client;
-        List<String> listPC = new List<String>();
-        FirebaseResponse response = null;
         public static string username;
+        public static string botName;
+        public static string url;
+        public static string content;
+
+        [DllImport("user32.dll")]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
+        public void BringToFront()
+        {
+            Process p = Process.GetProcessesByName("CabalMain").FirstOrDefault();
+            SetForegroundWindow(p.MainWindowHandle);
+        }
         public Form1()
         {
             InitializeComponent();
@@ -35,23 +46,11 @@ namespace ImgOps
         }
         private void testButton_Click(object sender, EventArgs e)
         {
-            client = new FireSharp.FirebaseClient(fbase);
-
-            List<String> listData = new List<String>();
-            FirebaseResponse response = null;
-            var result = response.Body;
-            if (client != null)
-                MessageBox.Show("Established connection");
-            //StateManager stateManager = new StateManager();
-            //BringToFront();
-            //stateManager.GetStates();
-            //var cState = stateManager.SetState(0);
-            //pictureBox1.Image = cState.stateImg;
-            //int i = 16;
-            //currentState.stateImg = (Bitmap)Image.FromFile(statesPath + currentState.stateName + ".jpg");
-            //processBox.Image = currentState.stateImg;
-            //logBox.Items.Add(currentState.stateName);
-
+            AddLog("test");
+            url = dgv.SelectedCells[0].Value.ToString();
+            botName = dgv.SelectedCells[4].Value.ToString();
+            content = logBox.Items[logBox.Items.Count - 1].ToString();
+            log2Discord(url, botName, content);
         }
         private void addPC_Click_1(object sender, EventArgs e)
         {
@@ -66,28 +65,18 @@ namespace ImgOps
             client = new FirebaseClient(fbase);
             var SetPC = client.Set("Computers/" + pcName.Text, computer);
         }
-        private void pHook_CheckedChanged(object sender, EventArgs e)//timera çevir
+        private void pHook_CheckedChanged(object sender, EventArgs e)
         {
-            StateManager stateManager = new StateManager();
-            stateManager.GetStates();
-            long n = long.Parse(DateTime.Now.ToString("HHmm"));
-            if (2<=n && n<=10)
+            if (pHook.Checked == true)
             {
-                username = dgv.SelectedCells[0].Value.ToString();
+                username = charPicker();
+                Thread a = new Thread(ExThread.thread1);
+                a.Start();
             }
-            else if (10 < n)
-            {
-
-            }
-            stateManager.SetState(0);
-        }
-        public void AddLog(string text)
-        {
-            logBox.Items.Add(DateTime.Now.ToString("dd/MM HH:mm:ss ") + text);
         }
         private void loadDb_Click(object sender, EventArgs e)
         {
-            client = new FireSharp.FirebaseClient(fbase);
+            client = new FirebaseClient(fbase);
             dgv.Rows.Clear();
             dgv.Columns.Clear();
             dgv.Columns.Add("PC", "PC");
@@ -103,9 +92,59 @@ namespace ImgOps
                 dgv.Rows.Add(item.PC, item.CHAR1, item.CHAR2, item.CHAR3, item.HOOK);
             }
         }
-
-        private void dgv_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        public string charPicker()
         {
+            long time = long.Parse(DateTime.Now.ToString("HHmm"));
+            if (0200 <= time && time <= 1000)
+            {
+                username = dgv.SelectedCells[1].Value.ToString();
+            }
+            else if (1000 < time && time <= 1800)
+            {
+                username = dgv.SelectedCells[2].Value.ToString();
+            }
+            else
+            {
+                username = dgv.SelectedCells[3].Value.ToString();
+            }
+            return username;
+        }
+        public void AddLog(string text)
+        {
+            logBox.Items.Add("[" + DateTime.Now.ToString("dd/MM HH:mm:ss")+"]" + text);
+        }
+        public void notifyMe(string msg)
+        {
+            AddLog(msg);
+            url = dgv.SelectedCells[0].Value.ToString();
+            botName = dgv.SelectedCells[4].Value.ToString();
+            content = logBox.Items[logBox.Items.Count - 1].ToString();
+            log2Discord(url, botName, content);
+        }
+        public void log2Discord(string URL, string botName, string content)
+        {
+            WebClient wc = new WebClient();
+            try
+            {
+                wc.UploadValues(URL, new System.Collections.Specialized.NameValueCollection
+                {
+                    {"content",content },
+                    {"username",botName},
+                });
+            }
+            catch (WebException ex)
+            {
+                AddLog(ex.ToString());
+            }
+        }
+    }
+    public class ExThread
+    {
+        public static void thread1()
+        {
+            StateManager sm = new StateManager();
+            sm.GetStates();
+            sm.SetState(0);
         }
     }
 }

@@ -31,6 +31,11 @@ namespace ImgOps
             sim.Keyboard.KeyPress(key);
             SleepOps();
         }
+        public void DoHover(Point pixel)
+        {
+            sim.Mouse.MoveMouseBy(pixel.X,pixel.Y);
+            SleepOps();
+        }
         public void SleepOps()
         {
             sim.Keyboard.Sleep(16);

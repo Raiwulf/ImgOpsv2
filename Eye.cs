@@ -15,8 +15,7 @@ namespace ImgOps
             Form1 form = new Form1(); ;// ilk param: start, iki: param width, uc: panel
             if (panel == "botPanel")
             {
-                Bitmap botPanel = CaptureManager.CapIt(0, 250, 0, 85, "botPanel");
-                form.AddLog("Captured botPanel");
+                Bitmap botPanel = CaptureManager.CapIt(0, 250, 0, screenHeight, "botPanel");
                 form.pictureBox2.Image = botPanel;
                 Point pixel = GetMatch(botPanel, statesImg);
                 return pixel;
@@ -24,7 +23,6 @@ namespace ImgOps
             else
             {
                 Bitmap clientPanel = CaptureManager.CapIt(250, screenWidth - 250, 0, screenHeight, "Client");
-                form.AddLog("Captured clientPanel");
                 form.pictureBox2.Image = clientPanel;
                 Point pixel = GetMatch(clientPanel, statesImg);
                 pixel.X = pixel.X + 250;

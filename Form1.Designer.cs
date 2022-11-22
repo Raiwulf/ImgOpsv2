@@ -85,6 +85,8 @@ namespace ImgOps
             // 
             this.logBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.logBox.FormattingEnabled = true;
+            this.logBox.Items.AddRange(new object[] {
+            "Hey!"});
             this.logBox.Location = new System.Drawing.Point(0, 0);
             this.logBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.logBox.Name = "logBox";
@@ -155,7 +157,6 @@ namespace ImgOps
             this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgv.Size = new System.Drawing.Size(612, 257);
             this.dgv.TabIndex = 6;
-            this.dgv.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellContentClick);
             // 
             // scanIntLabel
             // 
