@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading;
 using WindowsInput.Native;
 
@@ -11,7 +8,7 @@ namespace ImgOps
 {
     public partial class StateManager : Form1
     {
-        
+
         List<State> statesList = new List<State>();
         string statesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps/States/";
         State currState = new State();
@@ -116,19 +113,19 @@ namespace ImgOps
             }
             catch (Exception)
             {
-                if(currState.stateId == 2)
+                if (currState.stateId == 2)
                 {
                     Thread.Sleep(8000);
                     SetState(8);
                 }
                 else if (currState.stateId == 10)
                 {
-                    Thread.Sleep(60*1000);
+                    Thread.Sleep(60 * 1000);
                     SetState(10);
                 }
                 else
                 {
-                    notifyMe(currState.stateName);
+                    testButton.PerformClick();
                     Thread.Sleep(8000);
                     SetState(11);
                 }

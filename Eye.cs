@@ -1,7 +1,6 @@
 ﻿using AForge.Imaging;
-using System;
-using System.Drawing.Imaging;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 
 namespace ImgOps
@@ -16,14 +15,12 @@ namespace ImgOps
             if (panel == "botPanel")
             {
                 Bitmap botPanel = CaptureManager.CapIt(0, 250, 0, screenHeight, "botPanel");
-                form.pictureBox2.Image = botPanel;
                 Point pixel = GetMatch(botPanel, statesImg);
                 return pixel;
             }
             else
             {
                 Bitmap clientPanel = CaptureManager.CapIt(250, screenWidth - 250, 0, screenHeight, "Client");
-                form.pictureBox2.Image = clientPanel;
                 Point pixel = GetMatch(clientPanel, statesImg);
                 pixel.X = pixel.X + 250;
                 return pixel;

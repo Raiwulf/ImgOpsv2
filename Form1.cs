@@ -1,19 +1,17 @@
-using System;
-using System.IO;
-using System.Windows.Forms;
+using FireSharp;
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
-using System.Collections.Generic;
 using Newtonsoft.Json;
-using FireSharp;
-using System.Threading;
-using Discord.Net;
-using static System.Net.Mime.MediaTypeNames;
-using System.Net;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace ImgOps
 {
@@ -44,26 +42,9 @@ namespace ImgOps
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps", "Captured"));
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ImgOps", "States"));
         }
-        private void testButton_Click(object sender, EventArgs e)
+        public void testButton_Click(object sender, EventArgs e)
         {
-            AddLog("test");
-            url = dgv.SelectedCells[0].Value.ToString();
-            botName = dgv.SelectedCells[4].Value.ToString();
-            content = logBox.Items[logBox.Items.Count - 1].ToString();
-            log2Discord(url, botName, content);
-        }
-        private void addPC_Click_1(object sender, EventArgs e)
-        {
-            Computer computer = new Computer()
-            {
-                PC = pcName.Text,
-                CHAR1 = char1.Text,
-                CHAR2 = char2.Text,
-                CHAR3 = char3.Text,
-                HOOK = webHook.Text
-            };
-            client = new FirebaseClient(fbase);
-            var SetPC = client.Set("Computers/" + pcName.Text, computer);
+            notifyMe(" Hata ");
         }
         private void pHook_CheckedChanged(object sender, EventArgs e)
         {
@@ -111,7 +92,7 @@ namespace ImgOps
         }
         public void AddLog(string text)
         {
-            logBox.Items.Add("[" + DateTime.Now.ToString("dd/MM HH:mm:ss")+"]" + text);
+            logBox.Items.Add("[" + DateTime.Now.ToString("dd/MM HH:mm:ss") + "]" + text);
         }
         public void notifyMe(string msg)
         {
@@ -136,6 +117,11 @@ namespace ImgOps
             {
                 AddLog(ex.ToString());
             }
+        }
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            timer1.Interval = 60 * 10;
+            notifyMe("Last Event: ");
         }
     }
     public class ExThread

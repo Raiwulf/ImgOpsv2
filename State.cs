@@ -5,7 +5,7 @@ namespace ImgOps
     public class State
     {//state manager 
         public State() { }
-        public State(int stateId, string stateName, Point target, string panel="clientPanel")
+        public State(int stateId, string stateName, Point target, string panel = "clientPanel")
         {
             this.stateId = stateId;
             this.stateName = stateName;

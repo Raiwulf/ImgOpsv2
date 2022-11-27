@@ -7,7 +7,7 @@ namespace ImgOps
 {
     public class CaptureManager
     {
-        public static Bitmap CapIt(int x,int width, int y, int height, string capName)
+        public static Bitmap CapIt(int x, int width, int y, int height, string capName)
         {
             int screenTop = SystemInformation.VirtualScreen.Top;
             int screenHeight = SystemInformation.VirtualScreen.Height;

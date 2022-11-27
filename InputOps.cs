@@ -33,7 +33,7 @@ namespace ImgOps
         }
         public void DoHover(Point pixel)
         {
-            sim.Mouse.MoveMouseBy(pixel.X,pixel.Y);
+            sim.Mouse.MoveMouseBy(pixel.X, pixel.Y);
             SleepOps();
         }
         public void SleepOps()
