@@ -27,10 +27,12 @@ namespace ImgOps
         public static string botName;
         public static string url;
         public static string content;
+        
+        LayoutForm layoutForm = new LayoutForm();
 
         [DllImport("user32.dll")]
         static extern bool SetForegroundWindow(IntPtr hWnd);
-        public void BringToFront()
+        public void b2Front()
         {
             Process p = Process.GetProcessesByName("CabalMain").FirstOrDefault();
             SetForegroundWindow(p.MainWindowHandle);
@@ -44,7 +46,7 @@ namespace ImgOps
         }
         public void testButton_Click(object sender, EventArgs e)
         {
-            notifyMe(" Hata ");
+            layoutForm.Show();
         }
         private void pHook_CheckedChanged(object sender, EventArgs e)
         {
@@ -122,6 +124,11 @@ namespace ImgOps
         {
             timer1.Interval = 60 * 10;
             notifyMe("Last Event: ");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            layoutForm.Hide();
         }
     }
     public class ExThread

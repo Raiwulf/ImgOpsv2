@@ -42,6 +42,7 @@ namespace ImgOps
             this.TestTab = new System.Windows.Forms.TabPage();
             this.testButton = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -146,6 +147,7 @@ namespace ImgOps
             // 
             // TestTab
             // 
+            this.TestTab.Controls.Add(this.button1);
             this.TestTab.Controls.Add(this.testButton);
             this.TestTab.Location = new System.Drawing.Point(4, 22);
             this.TestTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -171,6 +173,19 @@ namespace ImgOps
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button1.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.button1.Location = new System.Drawing.Point(0, 45);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(612, 45);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Test_Disable";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
@@ -206,5 +221,6 @@ namespace ImgOps
         public Button testButton;
         public DataGridView dgv;
         private Button loadDb;
+        public Button button1;
     }
 }

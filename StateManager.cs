@@ -140,7 +140,7 @@ namespace ImgOps
             switch (stateId)
             {
                 case 0://login
-                    BringToFront();
+                    b2Front();
                     inputOps.DoKey(VirtualKeyCode.RETURN);
                     inputOps.DoubleClick(pixel);
                     inputOps.DoClear();
@@ -165,7 +165,7 @@ namespace ImgOps
                     SetState(3);
                     break;
                 case 3://sub1
-                    BringToFront();
+                    b2Front();
                     inputOps.DoKey(VirtualKeyCode.RETURN);
                     Thread.Sleep(2000);
                     inputOps.DoClick(pixel);
